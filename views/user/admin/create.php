@@ -140,22 +140,11 @@ $this->params['breadcrumbs'][] = $this->title;
 						</div>
 						<div class="row">
 							<div class="col-md-6">
-								<?php 
-									$amphoe_list_url = \yii\helpers\Url::to(['common/ajax/amphoe-list']);
-								?>
 								<?= $form->field($ef_proj_hdlr, 'AMPHOE_CODE')->widget(Select2::classname(), [
 								    'data' => [],
 								    'options' => ['placeholder' => 'เลือกจังหวัดก่อน'],
 								    'pluginOptions' => [
-								        'allowClear' => false,
-							    		'ajax' => [
-							    				'url' => $url,
-							    				'dataType' => 'json',
-							    				'data' => new JsExpression('function(params) { return {q:params.term}; }')
-							    		],
-							    		'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-							    		'templateResult' => new JsExpression('function(city) { return city.text; }'),
-							    		'templateSelection' => new JsExpression('function (city) { return city.text; }'),
+								        'allowClear' => false
 								    ],
 								])->label(null, ['class'=>'col-md-12']) ?>
 							</div>
