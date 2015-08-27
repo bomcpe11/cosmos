@@ -44,7 +44,7 @@ class AjaxController extends Controller
 
 
     /**
-    * This function is used to return the data to the DrepDrop widget
+    * This function is used to return the data to the DepDrop widget
     * See more information on http://demos.krajee.com/widget-details/depdrop
     */
     public function actionGetAmphurList() {
@@ -68,7 +68,7 @@ class AjaxController extends Controller
     }
 
     /**
-    * This function is used to return the data to the DrepDrop widget
+    * This function is used to return the data to the DepDrop widget
     * See more information on http://demos.krajee.com/widget-details/depdrop
     */
     public function actionGetDistrictList() {
