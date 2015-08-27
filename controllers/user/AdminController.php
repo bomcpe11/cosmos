@@ -88,7 +88,8 @@ class AdminController extends Controller
         /** @var \amnah\yii2\user\models\User $user */
         /** @var \amnah\yii2\user\models\Profile $profile */
     	
-    	$provinces = EfThaiProvince::find()->select(['PROVINCE_ID', 'PROVINCE_NAME'])->all();
+        // $provinces = EfThaiProvince::find()->select(['PROVINCE_ID', 'PROVINCE_NAME'])->all();
+    	$provinces = EfThaiProvince::find()->all();
 
         $user = Yii::$app->getModule("user")->model("User");
         $user->setScenario("admin");

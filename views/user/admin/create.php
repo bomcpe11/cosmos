@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
+use kartik\widgets\DepDrop;
 use kartik\widgets\Select2;
 
 /**
@@ -129,32 +130,71 @@ $this->params['breadcrumbs'][] = $this->title;
 								<?= $form->field($ef_proj_hdlr, 'ROAD')->label(null, ['class'=>'col-md-12']) ?>
 							</div>
 							<div class="col-md-6">
-								<?= $form->field($ef_proj_hdlr, 'TAMBOL_CODE')->widget(Select2::classname(), [
-								    'data' => [],
-								    'options' => ['placeholder' => 'เลือกจังหวัดและอำเภอก่อน'],
-								    'pluginOptions' => [
-								        'allowClear' => false
-								    ],
+								<?php  // $form->field($ef_proj_hdlr, 'TAMBOL_CODE')->widget(Select2::classname(), [
+								//     'data' => [],
+								//     'options' => ['placeholder' => 'เลือกจังหวัดและอำเภอก่อน'],
+								//     'pluginOptions' => [
+								//         'allowClear' => false
+								//     ],
+								// ])->label(null, ['class'=>'col-md-12']) ?>
+
+								<?=  $form->field($ef_proj_hdlr, 'TAMBOL_CODE')->widget(DepDrop::classname(), [
+									'options' =>  ['placeholder' => 'เลือกจังหวัดและอำเภอก่อน'],
+									'type' => DepDrop::TYPE_SELECT2,
+									'select2Options' => [
+										'pluginOptions' => [
+											'allowClear' => true
+										]
+									],
+									'pluginOptions'=>[
+										'depends'=>['efprojhdlr-amphoe_code'],
+										'url' => Url::to(['/common/ajax/get-district-list']),
+										'loadingText' => 'Loading ...',
+									]
 								])->label(null, ['class'=>'col-md-12']) ?>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6">
-								<?= $form->field($ef_proj_hdlr, 'AMPHOE_CODE')->widget(Select2::classname(), [
-								    'data' => [],
-								    'options' => ['placeholder' => 'เลือกจังหวัดก่อน'],
-								    'pluginOptions' => [
-								        'allowClear' => false
-								    ],
+								<?php //  $form->field($ef_proj_hdlr, 'AMPHOE_CODE')->widget(Select2::classname(), [
+								//     'data' => [],
+								//     'options' => ['placeholder' => 'เลือกจังหวัดก่อน'],
+								//     'pluginOptions' => [
+								//         'allowClear' => false
+								//     ],
+								// ])->label(null, ['class'=>'col-md-12']) ?>
+
+								<?=  $form->field($ef_proj_hdlr, 'AMPHOE_CODE')->widget(DepDrop::classname(), [
+									'options' =>  ['placeholder' => 'เลือกจังหวัดก่อน'],
+									'type' => DepDrop::TYPE_SELECT2,
+									'select2Options' => [
+										'pluginOptions' => [
+											'allowClear' => true
+										]
+									],
+									'pluginOptions'=>[
+										'depends'=>['efprojhdlr-province_code'],
+										'url' => Url::to(['/common/ajax/get-amphur-list']),
+										'loadingText' => 'Loading ...',
+									]
 								])->label(null, ['class'=>'col-md-12']) ?>
 							</div>
 							<div class="col-md-6">
+								<?php //  $form->field($ef_proj_hdlr, 'PROVINCE_CODE')->widget(Select2::classname(), [
+								//     'data' => \yii\helpers\ArrayHelper::map($provinces, 'PROVINCE_ID', 'PROVINCE_NAME'),
+								//     'options' => ['placeholder' => 'กรุณาเลือกจังหวัด'],
+								//     'pluginOptions' => [
+								//         'allowClear' => false
+								//     ],
+								// ])->label(null, ['class'=>'col-md-12']) ?>
+
+
 								<?= $form->field($ef_proj_hdlr, 'PROVINCE_CODE')->widget(Select2::classname(), [
-								    'data' => \yii\helpers\ArrayHelper::map($provinces, 'PROVINCE_ID', 'PROVINCE_NAME'),
-								    'options' => ['placeholder' => 'กรุณาเลือกจังหวัด'],
-								    'pluginOptions' => [
-								        'allowClear' => false
-								    ],
+									'data' => \yii\helpers\ArrayHelper::map($provinces, 'PROVINCE_CODE', 'PROVINCE_NAME'),
+									'options' => ['placeholder' => 'กรุณาเลือกจังหวัด'],
+									'pluginOptions' => [
+										'allowClear' => false
+									],
 								])->label(null, ['class'=>'col-md-12']) ?>
 							</div>
 						</div>
