@@ -11,6 +11,7 @@ use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\EfProjHdlr;
+use app\models\EfThaiProvince;
 
 /**
  * AdminController implements the CRUD actions for User model.
@@ -86,6 +87,8 @@ class AdminController extends Controller
     {
         /** @var \amnah\yii2\user\models\User $user */
         /** @var \amnah\yii2\user\models\Profile $profile */
+    	
+    	$provinces = EfThaiProvince::find()->select(['PROVINCE_ID', 'PROVINCE_NAME'])->all();
 
         $user = Yii::$app->getModule("user")->model("User");
         $user->setScenario("admin");
@@ -104,7 +107,8 @@ class AdminController extends Controller
         return $this->render('create', [
             'user' => $user,
             'profile' => $profile,
-        	'ef_proj_hdlr'=>$ef_proj_hdlr
+        	'ef_proj_hdlr'=>$ef_proj_hdlr,
+        	'provinces'=>$provinces
         ]);
     }
 

@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
+use kartik\widgets\Select2;
 
 /**
  * @var yii\web\View $this
@@ -128,15 +129,44 @@ $this->params['breadcrumbs'][] = $this->title;
 								<?= $form->field($ef_proj_hdlr, 'ROAD')->label(null, ['class'=>'col-md-12']) ?>
 							</div>
 							<div class="col-md-6">
-								<?= $form->field($ef_proj_hdlr, 'TAMBOL_CODE')->dropDownList(['AA','BB'])->label(null, ['class'=>'col-md-12']) ?>
+								<?= $form->field($ef_proj_hdlr, 'TAMBOL_CODE')->widget(Select2::classname(), [
+								    'data' => [],
+								    'options' => ['placeholder' => 'เลือกจังหวัดและอำเภอก่อน'],
+								    'pluginOptions' => [
+								        'allowClear' => false
+								    ],
+								])->label(null, ['class'=>'col-md-12']) ?>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6">
-								<?= $form->field($ef_proj_hdlr, 'AMPHOE_CODE')->dropDownList(['AA','BB'])->label(null, ['class'=>'col-md-12']) ?>
+								<?php 
+									$amphoe_list_url = \yii\helpers\Url::to(['common/ajax/amphoe-list']);
+								?>
+								<?= $form->field($ef_proj_hdlr, 'AMPHOE_CODE')->widget(Select2::classname(), [
+								    'data' => [],
+								    'options' => ['placeholder' => 'เลือกจังหวัดก่อน'],
+								    'pluginOptions' => [
+								        'allowClear' => false,
+							    		'ajax' => [
+							    				'url' => $url,
+							    				'dataType' => 'json',
+							    				'data' => new JsExpression('function(params) { return {q:params.term}; }')
+							    		],
+							    		'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+							    		'templateResult' => new JsExpression('function(city) { return city.text; }'),
+							    		'templateSelection' => new JsExpression('function (city) { return city.text; }'),
+								    ],
+								])->label(null, ['class'=>'col-md-12']) ?>
 							</div>
 							<div class="col-md-6">
-								<?= $form->field($ef_proj_hdlr, 'PROVINCE_CODE')->dropDownList(['AA','BB'])->label(null, ['class'=>'col-md-12']) ?>
+								<?= $form->field($ef_proj_hdlr, 'PROVINCE_CODE')->widget(Select2::classname(), [
+								    'data' => \yii\helpers\ArrayHelper::map($provinces, 'PROVINCE_ID', 'PROVINCE_NAME'),
+								    'options' => ['placeholder' => 'กรุณาเลือกจังหวัด'],
+								    'pluginOptions' => [
+								        'allowClear' => false
+								    ],
+								])->label(null, ['class'=>'col-md-12']) ?>
 							</div>
 						</div>
 						<div class="row">
