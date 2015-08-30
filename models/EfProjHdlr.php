@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "ef_proj_hdlr".
@@ -33,6 +36,20 @@ use Yii;
  */
 class EfProjHdlr extends \yii\db\ActiveRecord
 {
+	public function behaviors()
+	{
+		return [
+				'timestamp' => [
+						'class' => TimestampBehavior::className(),
+						'attributes' => [
+								ActiveRecord::EVENT_BEFORE_INSERT => ['CREATE_DATE', 'LAST_UPD_DATE'],
+								ActiveRecord::EVENT_BEFORE_UPDATE => 'LAST_UPD_DATE',
+						],
+						'value' => new Expression('NOW()'),
+				],
+		];
+	}
+	
     /**
      * @inheritdoc
      */
@@ -47,7 +64,7 @@ class EfProjHdlr extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['PROJ_HDLR_ID', 'NAME', 'USER_ID', 'CREATE_BY', 'CREATE_DATE', 'LAST_UPD_BY', 'LAST_UPD_DATE'], 'required'],
+            [['PROJ_HDLR_ID', 'NAME', 'USER_ID'], 'required'],
             [['PROJ_HDLR_ID', 'USER_ID', 'CREATE_BY', 'LAST_UPD_BY'], 'integer'],
             [['CREATE_DATE', 'LAST_UPD_DATE'], 'safe'],
             [['NAME', 'BUILDING_NAME', 'TAMBOL_CODE'], 'string', 'max' => 255],
@@ -87,5 +104,24 @@ class EfProjHdlr extends \yii\db\ActiveRecord
             'LAST_UPD_BY' => 'รหัสผู้ปรับปรุงข้อมูล',
             'LAST_UPD_DATE' => 'เวลาที่ปรับปรุงข้อมูล',
         ];
+    }
+
+    /**
+     * Set user id
+     *
+     * @param int $userId
+     * @return static
+     */
+    public function setUser($userId)
+    {
+        $this->USER_ID = $userId;
+        return $this;
+    }
+    
+    public function getId()
+    {
+    	$row = parent::find()->select('max(PROJ_HDLR_ID) as PROJ_HDLR_ID')->one();
+    	$id = empty($row['PROJ_HDLR_ID'])?0:intval($row['PROJ_HDLR_ID'])+1;
+    	return $id;
     }
 }

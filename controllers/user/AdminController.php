@@ -98,11 +98,28 @@ class AdminController extends Controller
         $ef_proj_hdlr = new EfProjHdlr();
 
         $post = Yii::$app->request->post();
-        if ($user->load($post) && $user->validate() && $profile->load($post) && $profile->validate()) {
+        if ($user->load($post) 
+//         		&& $profile->load($post) 
+        		&& $ef_proj_hdlr->load($post) 
+        		&& $this->setCreateParams($user, $profile, $ef_proj_hdlr) 
+        		&& $user->validate() 
+        		&& $profile->validate()
+        		&& $ef_proj_hdlr->validate()) {
             $user->save(false);
             $profile->setUser($user->id)->save(false);
+            $ef_proj_hdlr->setUser($user->id)->save(false);
             return $this->redirect(['view', 'id' => $user->id]);
         }
+
+//         echo 'user.load: '.$user->load($post);
+//         echo ', ef_proj_hdlr.load: '.$ef_proj_hdlr->load($post);
+        
+// //         print_r($user);
+//         echo ', user.validate: '.$user->validate();
+//         echo ', profile.validate: '.$profile->validate();
+//         echo ', ef_proj_hdlr.validate: '.$ef_proj_hdlr->validate();
+        
+//         exit();
 
         // render
         return $this->render('create', [
@@ -111,6 +128,20 @@ class AdminController extends Controller
         	'ef_proj_hdlr'=>$ef_proj_hdlr,
         	'provinces'=>$provinces
         ]);
+    }
+    
+    protected function setCreateParams(&$user, &$profile, &$ef_proj_hdlr){
+    	$user->email = $ef_proj_hdlr->RESP_EMAIL;
+    	$profile->full_name = $user->username;
+    	$user->role_id = 2;
+    	$user->status = 1;
+    	$user->ban_time = 0;
+    	$user->ban_reason = '';
+    	$ef_proj_hdlr->PROJ_HDLR_ID=$ef_proj_hdlr->getId();
+    	$ef_proj_hdlr->USER_ID=1;
+    	$ef_proj_hdlr->CREATE_BY=\Yii::$app->user->identity->id;
+    	$ef_proj_hdlr->LAST_UPD_BY=\Yii::$app->user->identity->id;
+    	return true;
     }
 
     /**
@@ -122,16 +153,26 @@ class AdminController extends Controller
      */
     public function actionUpdate($id)
     {
+    	$provinces = EfThaiProvince::find()->all();
+    	
         // set up user and profile
         $user = $this->findModel($id);
         $user->setScenario("admin");
         $profile = $user->profile;
 
+        $ef_proj_hdlr = $this->findEfProjHdlrModel($id);
+
         // load post data and validate
         $post = Yii::$app->request->post();
-        if ($user->load($post) && $user->validate() && $profile->load($post) && $profile->validate()) {
+        if ($user->load($post)
+        		&& $ef_proj_hdlr->load($post) 
+        		&& $this->setUpdateParams($user, $profile, $ef_proj_hdlr) 
+        		&& $user->validate() 
+        		&& $profile->validate()
+        		&& $ef_proj_hdlr->validate()) {
             $user->save(false);
             $profile->setUser($user->id)->save(false);
+            $ef_proj_hdlr->save(false);
             return $this->redirect(['view', 'id' => $user->id]);
         }
 
@@ -139,7 +180,20 @@ class AdminController extends Controller
         return $this->render('update', [
             'user' => $user,
             'profile' => $profile,
+        	'ef_proj_hdlr' => $ef_proj_hdlr,
+        	'provinces' => $provinces
         ]);
+    }
+    
+    protected function setUpdateParams(&$user, &$profile, &$ef_proj_hdlr){
+    	$user->email = $ef_proj_hdlr->RESP_EMAIL;
+    	$profile->full_name = $user->username;
+    	$user->role_id = 2;
+    	$user->status = 1;
+    	$user->ban_time = 0;
+    	$user->ban_reason = '';
+    	$ef_proj_hdlr->LAST_UPD_BY=\Yii::$app->user->identity->id;
+    	return true;
     }
 
     /**
@@ -179,5 +233,14 @@ class AdminController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    protected function findEfProjHdlrModel($id)
+    {
+    	if (($model = EfProjHdlr::find()->where(['USER_ID' => $id])->one()) !== null) {
+    		return $model;
+    	} else {
+    		throw new NotFoundHttpException('The requested page does not exist.');
+    	}
     }
 }

@@ -54,11 +54,11 @@ class AjaxController extends Controller
                             null;
 
         if ($provinceCode != null) {
-            $efThaiProvince = EfThaiProvince::find()->where(['PROVINCE_CODE' => $provinceCode])->one();
-            $efThaiAmphur = EfThaiAmphur::find()->where(['PROVINCE_ID' => $efThaiProvince->PROVINCE_ID])->all();
+//             $efThaiProvince = EfThaiProvince::find()->where(['PROVINCE_CODE' => $provinceCode])->one();
+            $efThaiAmphur = EfThaiAmphur::find()->where(['PROVINCE_ID' => $provinceCode])->all();
             $amphoeList = ArrayHelper::toArray($efThaiAmphur, [
                             'app\models\EfThaiAmphur' => [
-                                'id' => 'AMPHUR_CODE',
+                                'id' => 'AMPHUR_ID',
                                 'name' => 'AMPHUR_NAME'
                             ],
                         ]);
@@ -78,11 +78,11 @@ class AjaxController extends Controller
                             null;
 
         if ($amphoeCode != null) {
-            $efThaiAmphur = EfThaiAmphur::find()->where(['AMPHUR_CODE' => $amphoeCode])->one();
-            $efThaiDistrict = EfThaiDistrict::find()->where(['AMPHUR_ID' => $efThaiAmphur->AMPHUR_ID])->all();
+//             $efThaiAmphur = EfThaiAmphur::find()->where(['AMPHUR_CODE' => $amphoeCode])->one();
+            $efThaiDistrict = EfThaiDistrict::find()->where(['AMPHUR_ID' => $amphoeCode])->all();
             $amphoeList = ArrayHelper::toArray($efThaiDistrict, [
                             'app\models\EfThaiDistrict' => [
-                                'id' => 'DISTRICT_CODE',
+                                'id' => 'DISTRICT_ID',
                                 'name' => 'DISTRICT_NAME'
                             ],
                         ]);

@@ -22,6 +22,8 @@ $this->params['breadcrumbs'][] = Yii::t('user', 'Update');
     <?= $this->render('_form', [
         'user' => $user,
         'profile' => $profile,
+    	'ef_proj_hdlr' => $ef_proj_hdlr,
+    	'provinces' => $provinces
     ]) ?>
 
 </div>

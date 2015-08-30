@@ -61,6 +61,16 @@ use yii\bootstrap\Nav;
             </li>
             <li class="treeview">
                 <a href="#">
+                    <i class="fa fa-share"></i> <span>กองทุนสิ่งแวดล้อม</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="<?= \yii\helpers\Url::to(['/project/create']) ?>"> บันทึก</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
                     <i class="fa fa-share"></i> <span>บันทึก</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>

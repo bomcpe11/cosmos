@@ -160,7 +160,7 @@ class User extends ActiveRecord implements IdentityInterface
             // virtual attributes set above
             'currentPassword' => Yii::t('user', 'Current Password'),
             'newPassword'     => Yii::t('user', 'รหัสผ่าน'),
-            'newPasswordConfirm' => Yii::t('user', 'New Password Confirm'),
+            'newPasswordConfirm' => Yii::t('user', 'ยืนยันรหัสผ่าน'),
         ];
     }
 

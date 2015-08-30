@@ -30,7 +30,9 @@
         "kartik-v/yii2-money": "*",
         "amnah/yii2-user": "~3.0",
         "kartik-v/yii2-widget-select2": "@dev",
-        "kartik-v/yii2-widget-depdrop": "@dev"
+        "kartik-v/yii2-widget-depdrop": "@dev",
+        "2amigos/yii2-ckeditor-widget" : "~1.0",
+        "kartik-v/bootstrap-fileinput": "~4.2"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
