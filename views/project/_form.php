@@ -8,6 +8,7 @@ use kartik\widgets\DepDrop;
 use kartik\widgets\Select2;
 use dosamigos\ckeditor\CKEditor;
 use yii\bootstrap\Tabs;
+use kartik\widgets\FileInput
 
 /* @var $this yii\web\View */
 /* @var $model app\models\EfProject */
@@ -20,6 +21,11 @@ use yii\bootstrap\Tabs;
 	.form-horizontal .radio {
 	    float: left;
 	    padding-left: 13px;
+    }
+    .docs-icon{
+    	font-size: 66px;
+    	color: gray;
+    	padding: 60px;
     }
 </style>
 
@@ -54,7 +60,7 @@ use yii\bootstrap\Tabs;
 							<div class="row">
 								<div class="col-md-6">
 									<?= $form->field($model, 'FISCAL_YEAR')->widget(Select2::classname(), [
-										'data' => ['2558', '2557', '2556'],
+										'data' => ['2558'=>'2558', '2557'=>'2557', '2556'=>'2556'],
 										'options' => ['placeholder' => 'กรุณาเลือก'],
 										'pluginOptions' => [
 											'allowClear' => false
@@ -62,7 +68,13 @@ use yii\bootstrap\Tabs;
 									]) ?>
 								</div>
 								<div class="col-md-6">
-									<?= $form->field($model, 'PROJECT_TYPE_ID') ?>
+									<?= $form->field($model, 'PROJECT_TYPE_ID')->widget(Select2::classname(), [
+										'data' => \yii\helpers\ArrayHelper::map(app\models\EfProjectType::find()->all(), 'PROJECT_TYPE_ID', 'PROJECT_TYPE_NAME'),
+										'options' => ['placeholder' => 'กรุณาเลือก'],
+										'pluginOptions' => [
+											'allowClear' => false
+										],
+									]) ?>
 								</div>
 							</div>
 							<div class="row">
@@ -108,8 +120,8 @@ use yii\bootstrap\Tabs;
 										],
 										'pluginOptions'=>[
 											'depends'=>['efproject-unit_id'],
-											'initialize' => true,
-        									'initDepends'=>['efproject-unit_id'],
+											'initialize' => $model->isNewRecord?false:true,
+        									'initDepends'=> ['efproject-unit_id'],
 											'url' => Url::to(['/common/ajax/get-efdivision-list']),
 											'loadingText' => 'Loading ...',
 											'placeholder'=>'เลือก สำนัก/กอง ก่อน'
@@ -132,7 +144,7 @@ use yii\bootstrap\Tabs;
 							<div class="row">
 								<div class="col-md-6">
 									<?= $form->field($model, 'BUDGET_TYPE_ID')->widget(Select2::classname(), [
-										'data' => [],
+										'data' => \yii\helpers\ArrayHelper::map(app\models\EfBudgetType::find()->all(), 'BUDGET_TYPE_ID', 'BUDGET_TYPE_NAME'),
 										'options' => ['placeholder' => 'กรุณาเลือก'],
 										'pluginOptions' => [
 											'allowClear' => false
@@ -165,11 +177,67 @@ use yii\bootstrap\Tabs;
 						</div>
 						<div class="panel-body search-result-contents">
 							<div class="row">
+								<div class="col-md-12">
+									<?= $form->field($model, 'PROJ_HDLR_ID')->widget(Select2::classname(), [
+										'data' => \yii\helpers\ArrayHelper::map(app\models\EfProjHdlr::find()->all(), 'PROJ_HDLR_ID', 'NAME'),
+										'options' => ['placeholder' => 'กรุณาเลือก'],
+										'pluginOptions' => [
+											'allowClear' => false
+										],
+									]) ?>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									
+								</div>
+							</div>
+							<div class="row">
 								<div class="col-md-6">
-									<?= $form->field($model, 'FISCAL_YEAR')->passwordInput() ?>
+									
 								</div>
 								<div class="col-md-6">
-									<?= $form->field($model, 'PROJECT_TYPE_ID')->passwordInput() ?>
+									
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<?= $form->field($model, 'CONTRACT_NUM') ?>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<?= $form->field($model, 'PLACE') ?>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<?= $form->field($model, 'PROVINCE_CODE')->widget(Select2::classname(), [
+										'data' => \yii\helpers\ArrayHelper::map(app\models\EfThaiProvince::find()->all(), 'PROVINCE_ID', 'PROVINCE_NAME'),
+										'options' => ['placeholder' => 'กรุณาเลือกจังหวัด'],
+										'pluginOptions' => [
+											'allowClear' => false
+										],
+									]) ?>
+								</div>
+								<div class="col-md-6">
+									<?=  $form->field($model, 'AMPHOE_CODE')->widget(DepDrop::classname(), [
+										'data'=> [$model->AMPHOE_CODE=>''],
+										'type' => DepDrop::TYPE_SELECT2,
+										'select2Options' => [
+											'pluginOptions' => [
+												'allowClear' => false
+											]
+										],
+										'pluginOptions'=>[
+											'depends'=>['efproject-province_code'],
+											'initialize' => $model->isNewRecord?false:true,
+        									'initDepends'=>['efproject-province_code'],
+											'url' => Url::to(['/common/ajax/get-amphur-list']),
+											'loadingText' => 'Loading ...',
+											'placeholder'=>'เลือกจังหวัดก่อน'
+										]
+									]) ?>
 								</div>
 							</div>
 						</div>
@@ -204,6 +272,55 @@ use yii\bootstrap\Tabs;
 															        'preset' => 'basic'
 															    ])->label(false)
 									        ],
+									        [
+									            'label' => $model->getAttributeLabel('TARGET'),
+									            'content' => $form->field($model, 'TARGET')->widget(CKEditor::className(), [
+															        'options' => ['rows' => 6],
+															        'preset' => 'basic'
+															    ])->label(false)
+									        ],
+									        [
+									            'label' => $model->getAttributeLabel('TARGET_GROUP'),
+									            'content' => $form->field($model, 'TARGET_GROUP')->widget(CKEditor::className(), [
+															        'options' => ['rows' => 6],
+															        'preset' => 'basic'
+															    ])->label(false)
+									        ],
+									        [
+									            'label' => $model->getAttributeLabel('OUTPUT'),
+									            'content' => $form->field($model, 'OUTPUT')->widget(CKEditor::className(), [
+															        'options' => ['rows' => 6],
+															        'preset' => 'basic'
+															    ])->label(false)
+									        ],
+									        [
+									            'label' => $model->getAttributeLabel('INDICATOR'),
+									            'content' => $form->field($model, 'INDICATOR')->widget(CKEditor::className(), [
+															        'options' => ['rows' => 6],
+															        'preset' => 'basic'
+															    ])->label(false)
+									        ],
+									        [
+									            'label' => $model->getAttributeLabel('RESULT'),
+									            'content' => $form->field($model, 'RESULT')->widget(CKEditor::className(), [
+															        'options' => ['rows' => 6],
+															        'preset' => 'basic'
+															    ])->label(false)
+									        ],
+									        [
+									            'label' => $model->getAttributeLabel('SCOPE'),
+									            'content' => $form->field($model, 'SCOPE')->widget(CKEditor::className(), [
+															        'options' => ['rows' => 6],
+															        'preset' => 'basic'
+															    ])->label(false)
+									        ],
+									        [
+									            'label' => $model->getAttributeLabel('PLAN'),
+									            'content' => $form->field($model, 'PLAN')->widget(CKEditor::className(), [
+															        'options' => ['rows' => 6],
+															        'preset' => 'basic'
+															    ])->label(false)
+									        ],
 									    ],
 									]);?>
 								</div>
@@ -222,7 +339,26 @@ use yii\bootstrap\Tabs;
 						</div>
 						<div class="panel-body search-result-contents">
 							<div class="row">
-								
+								<?php 
+									// Display an initial preview of files with caption
+									// (useful in UPDATE scenarios). Set overwrite `initialPreview`
+									// to `false` to append uploaded images to the initial preview.
+									echo FileInput::widget([
+										'name' => 'PROJECT_DOC',
+										'options'=>[
+											'multiple'=>true
+										],
+										'pluginOptions' => [
+										'initialPreview'=>[
+// 											Html::img("@web/doc/32724_assignment1.pdf", ['class'=>'file-preview-image', 'alt'=>'32724_assignment1.pdf', 'title'=>'32724_assignment1.pdf']),
+// 											Html::img("@web/doc/32724_assignment2.pdf",  ['class'=>'file-preview-image', 'alt'=>'32724_assignment2.pdf', 'title'=>'32724_assignment2.pdf']),
+											'<span class="glyphicon glyphicon-list-alt docs-icon"></span><span style="display: block;text-align: center;">32724_assignment1.pdf</span>',
+											'<span class="glyphicon glyphicon-list-alt docs-icon"></span><span style="display: block;text-align: center;">32724_assignment2.pdf</span>'
+											],
+        										'overwriteInitial'=>false
+											]
+										]);
+								?>
 							</div>
 						</div>
 					</div>
@@ -236,7 +372,24 @@ use yii\bootstrap\Tabs;
 						</div>
 						<div class="panel-body search-result-contents">
 							<div class="row">
-								
+								<?php 
+									// Display an initial preview of files with caption
+									// (useful in UPDATE scenarios). Set overwrite `initialPreview`
+									// to `false` to append uploaded images to the initial preview.
+									echo FileInput::widget([
+										'name' => 'PROJECT_IMAGE',
+										'options'=>[
+											'multiple'=>true
+										],
+										'pluginOptions' => [
+										'initialPreview'=>[
+											Html::img("@web/images/DSC_0063-1.jpg", ['class'=>'file-preview-image', 'alt'=>'DSC_0063-1.jpg', 'title'=>'DSC_0063-1.jpg']),
+											Html::img("@web/images/teamwork-penguin.png",  ['class'=>'file-preview-image', 'alt'=>'teamwork-penguin.png', 'title'=>'teamwork-penguin.png']),
+											],
+        										'overwriteInitial'=>false
+											]
+										]);
+								?>
 							</div>
 						</div>
 					</div>
@@ -245,10 +398,13 @@ use yii\bootstrap\Tabs;
 		</div>
 	</div>
 
-    <div class="form-group">
+    <div class="form-group" style="text-align:center;">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
 
 </div>
+<script type="text/javascript">
+	
+</script>

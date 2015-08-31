@@ -110,9 +110,9 @@ class EfProject extends \yii\db\ActiveRecord
             'BUDGET_RECEIVE' => 'งบประมาณที่ได้รับ (บาท)',
             'BUDGET_ACTUAL' => 'งบประมาณที่จ่ายจริง (บาท)',
             'PROJECT_STATUS' => 'สถานะโครงการ', // (1:อยู่ระหว่างดำเนินการ,2:ดำเนินการเสร็จสิ้น,3:ยกเลิกโครงการ)
-            'PROJ_HDLR_ID' => 'Proj  Hdlr  ID',
+            'PROJ_HDLR_ID' => 'บุคคล / หน่วยงาน ที่รับผิดชอบโครงการ (คู่สัญญา)',
             'CONTRACT_NUM' => 'เลขที่สัญญา',
-            'PLACE' => 'ที่ตั้งโครงการ',
+            'PLACE' => 'สถานที่ตั้งโครงการ',
             'AMPHOE_CODE' => 'อำเภอ',
             'PROVINCE_CODE' => 'จังหวัด',
             'PRINC_N_REASON' => 'หลักการและเหตุผล',

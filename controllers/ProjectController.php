@@ -61,13 +61,21 @@ class ProjectController extends base\AppController
     {
         $model = new EfProject();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $this->setCreateParams($model) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->PROJECT_ID]);
         } else {
+        	
             return $this->render('create', [
                 'model' => $model,
             ]);
         }
+    }
+    
+    protected function setCreateParams(&$model){
+    	$model->PROJECT_ID = $model->getId();
+    	$model->CREATE_BY=\Yii::$app->user->identity->id;
+    	$model->LAST_UPD_BY=\Yii::$app->user->identity->id;
+    	return true;
     }
 
     /**
@@ -80,13 +88,18 @@ class ProjectController extends base\AppController
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $this->setUpdateParams($model) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->PROJECT_ID]);
         } else {
             return $this->render('update', [
                 'model' => $model,
             ]);
         }
+    }
+    
+    protected function setUpdateParams(&$model){
+    	$model->LAST_UPD_BY=\Yii::$app->user->identity->id;
+    	return true;
     }
 
     /**

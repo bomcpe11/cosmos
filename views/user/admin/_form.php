@@ -161,8 +161,6 @@ $role = Yii::$app->getModule("user")->model("Role");
 									]) ?>
 								</div>
 								<div class="col-md-6">
-	
-	
 									<?= $form->field($ef_proj_hdlr, 'PROVINCE_CODE')->widget(Select2::classname(), [
 										'data' => \yii\helpers\ArrayHelper::map($provinces, 'PROVINCE_ID', 'PROVINCE_NAME'),
 										'options' => ['placeholder' => 'กรุณาเลือกจังหวัด'],

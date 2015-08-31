@@ -73,13 +73,9 @@ class AjaxController extends Controller
     */
     public function actionGetAmphurList() {
         $amphoeList = [];
-        $provinceCode = isset(Yii::$app->request->post('depdrop_all_params')['efprojhdlr-province_code'])?
-                            Yii::$app->request->post('depdrop_all_params')['efprojhdlr-province_code']:
-                            null;
-
-        if ($provinceCode != null) {
-//             $efThaiProvince = EfThaiProvince::find()->where(['PROVINCE_CODE' => $provinceCode])->one();
-            $efThaiAmphur = EfThaiAmphur::find()->where(['PROVINCE_ID' => $provinceCode])->all();
+        if (isset($_POST['depdrop_parents'])) {
+        	$id = end($_POST['depdrop_parents']);
+            $efThaiAmphur = EfThaiAmphur::find()->where(['PROVINCE_ID' => $id])->all();
             $amphoeList = ArrayHelper::toArray($efThaiAmphur, [
                             'app\models\EfThaiAmphur' => [
                                 'id' => 'AMPHUR_ID',
@@ -97,13 +93,9 @@ class AjaxController extends Controller
     */
     public function actionGetDistrictList() {
         $amphoeList = [];
-        $amphoeCode = isset(Yii::$app->request->post('depdrop_all_params')['efprojhdlr-amphoe_code'])?
-                            Yii::$app->request->post('depdrop_all_params')['efprojhdlr-amphoe_code']:
-                            null;
-
-        if ($amphoeCode != null) {
-//             $efThaiAmphur = EfThaiAmphur::find()->where(['AMPHUR_CODE' => $amphoeCode])->one();
-            $efThaiDistrict = EfThaiDistrict::find()->where(['AMPHUR_ID' => $amphoeCode])->all();
+        if (isset($_POST['depdrop_parents'])) {
+        	$id = end($_POST['depdrop_parents']);
+            $efThaiDistrict = EfThaiDistrict::find()->where(['AMPHUR_ID' => $id])->all();
             $amphoeList = ArrayHelper::toArray($efThaiDistrict, [
                             'app\models\EfThaiDistrict' => [
                                 'id' => 'DISTRICT_ID',

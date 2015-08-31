@@ -5,6 +5,7 @@ use \kartik\datecontrol\Module;
 $config = [ 
 		'id' => 'basic',
 		'basePath' => dirname ( __DIR__ ),
+		'language' => 'th',
 		'bootstrap' => [ 
 				'log' 
 		],
