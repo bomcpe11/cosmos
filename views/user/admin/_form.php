@@ -15,7 +15,11 @@ $role = Yii::$app->getModule("user")->model("Role");
  * @var yii\widgets\ActiveForm $form
  */
 ?>
-
+<style type="text/css">
+	.form-horizontal .control-label{
+		text-align: left;
+	}
+</style>
 <div class="user-form">
 
 	<?php
@@ -26,15 +30,13 @@ $role = Yii::$app->getModule("user")->model("Role");
 			'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
 			'horizontalCssClasses' => [
 										'offset' => '',
-										'label' => 'col-md-2',
+										'label' => 'col-md-12',
 										'wrapper' => 'col-md-12',
 										'error' => '',
 										'hint' => '',
 									],
-	// 		'fieldConfig'=>['class'=>'col-md-12'],
 			]
 		]);
-	// 	$form->field->labelOptions = ['class'=>'col-md-12'];
 	?>
 	
 	<div class="row content">
@@ -48,15 +50,15 @@ $role = Yii::$app->getModule("user")->model("Role");
 						<div class="panel-body search-result-contents">
 							<div class="row">
 								<div class="col-md-6">
-								<?= $form->field($user, 'username')->label(null, ['class'=>'col-md-12']) ?>
+								<?= $form->field($user, 'username') ?>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-6">
-									<?= $form->field($user, 'newPassword')->passwordInput()->label(null, ['class'=>'col-md-12']) ?>
+									<?= $form->field($user, 'newPassword')->passwordInput() ?>
 								</div>
 								<div class="col-md-6">
-									<?= $form->field($user, 'newPasswordConfirm')->passwordInput()->label(null, ['class'=>'col-md-12']) ?>
+									<?= $form->field($user, 'newPasswordConfirm')->passwordInput() ?>
 								</div>
 							</div>
 						</div>
@@ -70,22 +72,22 @@ $role = Yii::$app->getModule("user")->model("Role");
 						<div class="panel-body search-result-contents">
 							<div class="row">
 								<div class="col-md-6">
-									<?= $form->field($ef_proj_hdlr, 'RESP_FIRST_NAME')->label(null, ['class'=>'col-md-12']) ?>
+									<?= $form->field($ef_proj_hdlr, 'RESP_FIRST_NAME') ?>
 								</div>
 								<div class="col-md-6">
-									<?= $form->field($ef_proj_hdlr, 'RESP_LAST_NAME')->label(null, ['class'=>'col-md-12']) ?>
+									<?= $form->field($ef_proj_hdlr, 'RESP_LAST_NAME') ?>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-6">
-									<?= $form->field($ef_proj_hdlr, 'RESP_ID_NO')->label(null, ['class'=>'col-md-12']) ?>
+									<?= $form->field($ef_proj_hdlr, 'RESP_ID_NO') ?>
 								</div>
 							</div><div class="row">
 								<div class="col-md-6">
-									<?= $form->field($ef_proj_hdlr, 'RESP_MOBILE_NO')->label(null, ['class'=>'col-md-12']) ?>
+									<?= $form->field($ef_proj_hdlr, 'RESP_MOBILE_NO') ?>
 								</div>
 								<div class="col-md-6">
-									<?= $form->field($ef_proj_hdlr, 'RESP_EMAIL')->label(null, ['class'=>'col-md-12']) ?>
+									<?= $form->field($ef_proj_hdlr, 'RESP_EMAIL') ?>
 								</div>
 							</div>
 						</div>
@@ -101,26 +103,25 @@ $role = Yii::$app->getModule("user")->model("Role");
 						<div class="panel-body search-result-contents">
 							<div class="row">
 								<div class="col-md-12">
-									<?= $form->field($ef_proj_hdlr, 'NAME')->label(null, ['class'=>'col-md-12']) ?>
+									<?= $form->field($ef_proj_hdlr, 'NAME') ?>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-6">
-									<?= $form->field($ef_proj_hdlr, 'ADDRESS_NO')->label(null, ['class'=>'col-md-12']) ?>
+									<?= $form->field($ef_proj_hdlr, 'ADDRESS_NO') ?>
 								</div>
 								<div class="col-md-6">
-									<?= $form->field($ef_proj_hdlr, 'VILLAGE_NO')->label(null, ['class'=>'col-md-12']) ?>
+									<?= $form->field($ef_proj_hdlr, 'VILLAGE_NO') ?>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-6">
-									<?= $form->field($ef_proj_hdlr, 'ROAD')->label(null, ['class'=>'col-md-12']) ?>
+									<?= $form->field($ef_proj_hdlr, 'ROAD') ?>
 								</div>
 								<div class="col-md-6">
 	
 									<?=  $form->field($ef_proj_hdlr, 'TAMBOL_CODE')->widget(DepDrop::classname(), [
 										'data'=> [$ef_proj_hdlr->TAMBOL_CODE=>''],
-										'options' =>  ['placeholder' => 'เลือกจังหวัดและอำเภอก่อน'],
 										'type' => DepDrop::TYPE_SELECT2,
 										'select2Options' => [
 											'pluginOptions' => [
@@ -133,8 +134,9 @@ $role = Yii::$app->getModule("user")->model("Role");
         									'initDepends'=>['efprojhdlr-amphoe_code'],
 											'url' => Url::to(['/common/ajax/get-district-list']),
 											'loadingText' => 'Loading ...',
+											'placeholder'=>'เลือกจังหวัดและอำเภอก่อน'
 										]
-									])->label(null, ['class'=>'col-md-12']) ?>
+									]) ?>
 								</div>
 							</div>
 							<div class="row">
@@ -142,7 +144,6 @@ $role = Yii::$app->getModule("user")->model("Role");
 	
 									<?=  $form->field($ef_proj_hdlr, 'AMPHOE_CODE')->widget(DepDrop::classname(), [
 										'data'=> [$ef_proj_hdlr->AMPHOE_CODE=>''],
-										'options' =>  ['placeholder' => 'เลือกจังหวัดก่อน'],
 										'type' => DepDrop::TYPE_SELECT2,
 										'select2Options' => [
 											'pluginOptions' => [
@@ -155,8 +156,9 @@ $role = Yii::$app->getModule("user")->model("Role");
         									'initDepends'=>['efprojhdlr-province_code'],
 											'url' => Url::to(['/common/ajax/get-amphur-list']),
 											'loadingText' => 'Loading ...',
+											'placeholder'=>'เลือกจังหวัดก่อน'
 										]
-									])->label(null, ['class'=>'col-md-12']) ?>
+									]) ?>
 								</div>
 								<div class="col-md-6">
 	
@@ -167,25 +169,25 @@ $role = Yii::$app->getModule("user")->model("Role");
 										'pluginOptions' => [
 											'allowClear' => false
 										],
-									])->label(null, ['class'=>'col-md-12']) ?>
+									]) ?>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-6">
-									<?= $form->field($ef_proj_hdlr, 'ZIP_CODE')->label(null, ['class'=>'col-md-12']) ?>
+									<?= $form->field($ef_proj_hdlr, 'ZIP_CODE') ?>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-6">
-									<?= $form->field($ef_proj_hdlr, 'TELEPHONE_NO')->label(null, ['class'=>'col-md-12']) ?>
+									<?= $form->field($ef_proj_hdlr, 'TELEPHONE_NO') ?>
 								</div>
 								<div class="col-md-6">
-									<?= $form->field($ef_proj_hdlr, 'FAX_NO')->label(null, ['class'=>'col-md-12']) ?>
+									<?= $form->field($ef_proj_hdlr, 'FAX_NO') ?>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-6">
-									<?= $form->field($ef_proj_hdlr, 'EMAIL')->label(null, ['class'=>'col-md-12']) ?>
+									<?= $form->field($ef_proj_hdlr, 'EMAIL') ?>
 								</div>
 							</div>
 						</div>

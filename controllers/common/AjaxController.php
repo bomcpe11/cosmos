@@ -10,6 +10,7 @@ use yii\web\Controller;
 use app\models\EfThaiProvince;
 use app\models\EfThaiAmphur;
 use app\models\EfThaiDistrict;
+use app\models\EfDivision;
 
 class AjaxController extends Controller
 {
@@ -20,7 +21,9 @@ class AjaxController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['get-amphur-list', 'get-district-list'],
+                        'actions' => ['get-amphur-list', 
+                        		'get-district-list', 
+                        		'get-efdivision-list'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -42,6 +45,27 @@ class AjaxController extends Controller
         ];
     }
 
+    /**
+     * This function is used to return the data to the DepDrop widget
+     * See more information on http://demos.krajee.com/widget-details/depdrop
+     */
+    public function actionGetEfdivisionList() {
+    	$divisionList = [];
+    	$unitId = isset(Yii::$app->request->post('depdrop_all_params')['efproject-unit_id'])?
+    			Yii::$app->request->post('depdrop_all_params')['efproject-unit_id']:null;
+    
+    	if ($unitId != null) {
+    		$efDivision = EfDivision::find()->where(['UNIT_ID' => $unitId])->all();
+    		$divisionList = ArrayHelper::toArray($efDivision, [
+    				'app\models\EfDivision' => [
+    						'id' => 'DIVISION_ID',
+    						'name' => 'DIVISION_NAME'
+    				],
+    		]);
+    	}
+    
+    	echo Json::encode(['output' => $divisionList, 'selected' => '']);
+    }
 
     /**
     * This function is used to return the data to the DepDrop widget

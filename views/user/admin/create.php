@@ -12,16 +12,6 @@ use kartik\widgets\Select2;
  * @var amnah\yii2\user\models\Profile $profile
  */
 
-?>
-<style type="text/css">
-@media (min-width: 992px){
-	
-}
-.col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12{
-/* 	float: none; */
-}
-</style>
-<?
 $this->title = Yii::t('user', 'Create {modelClass}', [
   'modelClass' => 'User',
 ]);

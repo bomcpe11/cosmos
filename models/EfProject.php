@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "ef_project".
@@ -47,6 +50,19 @@ use Yii;
  */
 class EfProject extends \yii\db\ActiveRecord
 {
+	public function behaviors()
+	{
+		return [
+				'timestamp' => [
+						'class' => TimestampBehavior::className(),
+						'attributes' => [
+								ActiveRecord::EVENT_BEFORE_INSERT => ['CREATE_DATE', 'LAST_UPD_DATE'],
+								ActiveRecord::EVENT_BEFORE_UPDATE => 'LAST_UPD_DATE',
+						],
+						'value' => new Expression('NOW()'),
+				],
+		];
+	}
     /**
      * @inheritdoc
      */
@@ -61,7 +77,7 @@ class EfProject extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['PROJECT_ID', 'FISCAL_YEAR', 'PROJECT_TYPE_ID', 'PROJECT_NAME', 'UNIT_ID', 'DIVISION_ID', 'START_DATE', 'END_DATE', 'PROJECT_STATUS', 'PROJ_HDLR_ID', 'CREATE_BY', 'CREATE_DATE', 'LAST_UPD_BY', 'LAST_UPD_DATE'], 'required'],
+            [['PROJECT_ID', 'FISCAL_YEAR', 'PROJECT_TYPE_ID', 'PROJECT_NAME', 'UNIT_ID', 'DIVISION_ID', 'START_DATE', 'END_DATE', 'PROJECT_STATUS', 'PROJ_HDLR_ID'], 'required'],
             [['PROJECT_ID', 'PROJECT_TYPE_ID', 'UNIT_ID', 'DIVISION_ID', 'BUDGET_TYPE_ID', 'PROJ_HDLR_ID', 'CREATE_BY', 'LAST_UPD_BY'], 'integer'],
             [['START_DATE', 'END_DATE', 'CREATE_DATE', 'LAST_UPD_DATE'], 'safe'],
             [['BUDGET_RECEIVE', 'BUDGET_ACTUAL'], 'number'],
@@ -82,23 +98,23 @@ class EfProject extends \yii\db\ActiveRecord
         return [
             'PROJECT_ID' => 'เลขที่อ้างอิง ตารางข้อมูลโครงการที่ได้รับการสนับสนุนจากกองทุนสิ่งแวดล้อม',
             'FISCAL_YEAR' => 'ปีงบประมาณ',
-            'PROJECT_TYPE_ID' => 'Project  Type  ID',
-            'PLAN_NAME' => 'Plan  Name',
-            'MAIN_PRODUCTIVITY' => 'Main  Productivity',
+            'PROJECT_TYPE_ID' => 'ประเภทโครงการ',
+            'PLAN_NAME' => 'แผนงาน',
+            'MAIN_PRODUCTIVITY' => 'ผลผลิตหลัก',
             'PROJECT_NAME' => 'ชื่องาน/โครงการ',
-            'UNIT_ID' => 'Unit  ID',
-            'DIVISION_ID' => 'Division  ID',
-            'START_DATE' => 'เวลาเริ่มดำเนินการ',
-            'END_DATE' => 'เวลาสิ้นสุดดำเนินการ',
-            'BUDGET_TYPE_ID' => 'Budget  Type  ID',
-            'BUDGET_RECEIVE' => 'งบประมาณ (ได้รับ)',
-            'BUDGET_ACTUAL' => 'งบประมาณ (ใช้จริง)',
-            'PROJECT_STATUS' => 'สถานะโครงการ (1:อยู่ระหว่างดำเนินการ,2:ดำเนินการเสร็จสิ้น,3:ยกเลิกโครงการ)',
+            'UNIT_ID' => 'สำนัก/กอง',
+            'DIVISION_ID' => 'กลุ่มงาน/ฝ่าย',
+            'START_DATE' => 'ระยะเวลาดำเนินการ',
+            'END_DATE' => 'ถึง',
+            'BUDGET_TYPE_ID' => 'หมวดงบประมาณ',
+            'BUDGET_RECEIVE' => 'งบประมาณที่ได้รับ (บาท)',
+            'BUDGET_ACTUAL' => 'งบประมาณที่จ่ายจริง (บาท)',
+            'PROJECT_STATUS' => 'สถานะโครงการ', // (1:อยู่ระหว่างดำเนินการ,2:ดำเนินการเสร็จสิ้น,3:ยกเลิกโครงการ)
             'PROJ_HDLR_ID' => 'Proj  Hdlr  ID',
             'CONTRACT_NUM' => 'เลขที่สัญญา',
             'PLACE' => 'ที่ตั้งโครงการ',
-            'AMPHOE_CODE' => 'Amphoe  Code',
-            'PROVINCE_CODE' => 'Province  Code',
+            'AMPHOE_CODE' => 'อำเภอ',
+            'PROVINCE_CODE' => 'จังหวัด',
             'PRINC_N_REASON' => 'หลักการและเหตุผล',
             'OBJECTIVE' => 'วัตถุประสงค์',
             'TARGET' => 'เป้าหมาย',
@@ -145,5 +161,12 @@ class EfProject extends \yii\db\ActiveRecord
     public function getUNIT()
     {
         return $this->hasOne(EfUnit::className(), ['UNIT_ID' => 'UNIT_ID']);
+    }
+    
+    public function getId()
+    {
+    	$row = parent::find()->select('max(PROJECT_ID) as PROJECT_ID')->one();
+    	$id = empty($row['PROJECT_ID'])?0:intval($row['PROJECT_ID'])+1;
+    	return $id;
     }
 }
