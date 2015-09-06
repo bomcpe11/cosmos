@@ -30,59 +30,107 @@ use yii\bootstrap\Nav;
         </form>
         <!-- /.search form -->
 
-        <?php /*Nav::widget(
-            [
-                'encodeLabels' => false,
-                'options' => ['class' => 'sidebar-menu'],
-                'items' => [
-                    '<li class="header">Menu Yii2</li>',
-                    ['label' => '<i class="fa fa-file-code-o"></i><span>Gii</span>', 'url' => ['/gii']],
-                    ['label' => '<i class="fa fa-dashboard"></i><span>Debug</span>', 'url' => ['/debug']],
-                    [
-                        'label' => '<i class="glyphicon glyphicon-lock"></i><span>Sing in</span>', //for basic
-                        'url' => ['/site/login'],
-                        'visible' =>Yii::$app->user->isGuest
-                    ],
-                ],
-            ]
-        ); */
-        ?>
-
         <ul class="sidebar-menu">
+        	
+        <?php 
+        	$sql = 'SELECT ef_menu_main.MENU_MAIN_ID, 
+					ef_menu_main.MENU_MAIN_NAME, 
+					ef_menu_sub.MENU_SUB_ID, 
+					ef_menu_sub.MENU_SUB_NAME, 
+					ef_menu_sub.MENU_LINK FROM ef_menu_main, 
+					ef_menu_sub 
+			where ef_menu_sub.MENU_MAIN_ID=ef_menu_main.MENU_MAIN_ID 
+				and ef_menu_sub.STATUS= :status 
+				and ef_menu_main.STATUS= :status
+			ORDER BY ef_menu_main.SEQ ASC, ef_menu_sub.SEQ ASC';
+        	
+        	$connection = Yii::$app->db;
+        	$data = $connection->createCommand($sql, ['status' => 'A'])->queryAll();
+        	
+        	$menus = [];
+        	foreach ($data as $row){
+        		$menus[$row['MENU_MAIN_ID']][] = $row;
+        	}
+        	
+//         	echo '<pre>';
+//         	print_r($menus);
+//         	echo '</pre>';
+//         	exit();
+        	
+        	/*-----------------------------*/
+        	
+//         	$curr_id = 0;
+//         	foreach($data as $row){ 
+        	
+// 	        	if($curr_id != $row['MENU_MAIN_ID']){
+// 	        		echo '<li class="treeview">
+// 			                <a href="#">
+// 			                    <i class="fa fa-share"></i> <span>'.$row['MENU_MAIN_NAME'].'</span>
+// 			                    <i class="fa fa-angle-left pull-right"></i>
+// 			                </a>
+// 			                <ul class="treeview-menu">';
+// 	        	}
+	        	
+// 	        	echo '<li><a href="'.\yii\helpers\Url::to([$row['MENU_LINK']]).'"> '.$row['MENU_SUB_NAME'].'</a></li>';
+	        	
+// 	        	if($curr_id != $row['MENU_MAIN_ID']){
+// 	        		echo '</ul>
+// 	            	</li>';
+// 	        	}
+// 	        	$curr_id = $row['MENU_MAIN_ID'];
+//          	}
+         	
+         	?>
+         	
+         	<?php foreach($menus as $main_menu):?>
+         	<?php if(empty($main_menu)) continue; ?>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-share"></i> <span>Administrator</span>
+                    <i class="fa fa-share"></i> <span><?=$main_menu[0]['MENU_MAIN_NAME']?></span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?= \yii\helpers\Url::to(['/user/admin/create']) ?>"> V1 ลงทะเบียนผู้ใช้งาน</a>
+                	<?php foreach($main_menu as $sub_menu):?>
+                    <li><a href="<?= \yii\helpers\Url::to([$sub_menu['MENU_LINK']]) ?>"> <?=$sub_menu['MENU_SUB_NAME']?></a>
                     </li>
+                    <?php endforeach;?>
                 </ul>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-share"></i> <span>กองทุนสิ่งแวดล้อม</span>
-                    <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?= \yii\helpers\Url::to(['/project/create']) ?>"> บันทึก</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-share"></i> <span>บันทึก</span>
-                    <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="<?= \yii\helpers\Url::to(['/clnsport']) ?>"> CLN1I010 บันทึกระเบียนผู้ป่วย</a>
-                    </li>
-                    <li><a href="<?= \yii\helpers\Url::to(['/clnsport']) ?>"> CLN1I020 บันทึกการบาดเจ็บ</a>
-                    </li>
-                    <li><a href="<?= \yii\helpers\Url::to(['/clnsport']) ?>"> CLN1I010 บันทึกกิจกรรมย่อย</a>
-                    </li>
-                </ul>
-            </li>
+            <?php endforeach;?>
+<!--             <li class="treeview"> -->
+<!--                 <a href="#"> -->
+<!--                     <i class="fa fa-share"></i> <span>Administrator</span> -->
+<!--                     <i class="fa fa-angle-left pull-right"></i> -->
+<!--                 </a> -->
+<!--                 <ul class="treeview-menu"> -->
+<!--                    <li><a href="<?= \yii\helpers\Url::to(['/user/admin/create']) ?>"> V1 ลงทะเบียนผู้ใช้งาน</a> -->
+<!--                     </li> -->
+<!--                 </ul> -->
+<!--             </li> -->
+<!--             <li class="treeview"> -->
+<!--                 <a href="#"> -->
+<!--                     <i class="fa fa-share"></i> <span>กองทุนสิ่งแวดล้อม</span> -->
+<!--                     <i class="fa fa-angle-left pull-right"></i> -->
+<!--                 </a> -->
+<!--                 <ul class="treeview-menu"> -->
+<!--                    <li><a href="<?= \yii\helpers\Url::to(['/project/create']) ?>"> บันทึก</a> -->
+<!--                     </li> -->
+<!--                 </ul> -->
+<!--             </li> -->
+<!--             <li class="treeview"> -->
+<!--                 <a href="#"> -->
+<!--                     <i class="fa fa-share"></i> <span>บันทึก</span> -->
+<!--                     <i class="fa fa-angle-left pull-right"></i> -->
+<!--                 </a> -->
+<!--                 <ul class="treeview-menu"> -->
+<!--                    <li><a href="<?= \yii\helpers\Url::to(['/clnsport']) ?>"> CLN1I010 บันทึกระเบียนผู้ป่วย</a> -->
+<!--                     </li> -->
+<!--                    <li><a href="<?= \yii\helpers\Url::to(['/clnsport']) ?>"> CLN1I020 บันทึกการบาดเจ็บ</a> -->
+<!--                     </li> -->
+<!--                    <li><a href="<?= \yii\helpers\Url::to(['/clnsport']) ?>"> CLN1I010 บันทึกกิจกรรมย่อย</a> -->
+<!--                     </li> -->
+<!--                 </ul> -->
+<!--             </li> -->
         </ul>
 
     </section>
