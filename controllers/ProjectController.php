@@ -111,7 +111,7 @@ class ProjectController extends base\AppController
 
             $projectDoc = EfProjectDoc::find()->where(['PROJECT_ID' => $id])->all();
             foreach ($projectDoc as $key => $value) {
-                array_push($documentUploadFormConfigs['initialPreview'], $this->getDocumentPreviewTamplate($value));
+                array_push($documentUploadFormConfigs['initialPreview'], $this->getDocumentPreviewTamplate($documentUploadForm, $value));
                 array_push($documentUploadFormConfigs['initialPreviewConfig'], $this->getDocumentPreviewConfig($value));
             }
 
@@ -185,7 +185,7 @@ class ProjectController extends base\AppController
             if ($projectDoc->save()) {
                 $result = [
                             'initialPreview' => [
-                                $this->getDocumentPreviewTamplate($projectDoc)
+                                $this->getDocumentPreviewTamplate($model, $projectDoc)
                             ],
                            'initialPreviewConfig' => [
                                 $this->getDocumentPreviewConfig($projectDoc)
@@ -288,12 +288,13 @@ class ProjectController extends base\AppController
 
 
     /* *** private function *** */
-    private function getDocumentPreviewTamplate($projectDoc)
+    private function getDocumentPreviewTamplate($documentUploadForm, $projectDoc)
     {
-         return '<div class="file-preview-other-frame">'
+        $splitFileName = explode('.', $projectDoc->FILE_NAME);
+        return '<div class="file-preview-other-frame">'
                     .'<a href="'.$projectDoc->DOC_PATH.$projectDoc->FILE_NAME.'" target="_blank">'
                         .'<div class="file-preview-other">'
-                            .'<span class="file-icon-4x"><i class="fa fa-file"></i> </span>'
+                            .'<span class="file-icon-4x">'.$documentUploadForm->getIcon($splitFileName[count($splitFileName) - 1]).'</span>'
                         .'</div>'
                     .'</a>'
                 .'</div>';
