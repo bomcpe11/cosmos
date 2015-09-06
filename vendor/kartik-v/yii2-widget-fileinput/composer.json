@@ -4,7 +4,8 @@
     "keywords": ["yii2", "extension", "widget", "input", "file", "form", "upload", "jquery", "plugin"],
     "homepage": "https://github.com/kartik-v/yii2-widget-fileinput",
     "type": "yii2-extension",
-    "license": "BSD-3-Clause",
+    "license": "BSD 3-Clause",
+    "minimum-stability": "stable",
     "authors": [
         {
             "name": "Kartik Visweswaran",
@@ -13,8 +14,8 @@
         }
     ],
     "require": {
-        "kartik-v/yii2-krajee-base": "~1.7",
-        "kartik-v/bootstrap-fileinput": "~4.2"
+        "kartik-v/yii2-krajee-base": "*",
+        "kartik-v/bootstrap-fileinput": "*"
     },
     "autoload": {
         "psr-4": {

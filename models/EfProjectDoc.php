@@ -12,7 +12,9 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property integer $PROJECT_DOC_ID
  * @property integer $PROJECT_ID
+ * @property string $ABSOLUTE_DOC_PATH
  * @property string $DOC_PATH
+ * @property string $FILE_NAME
  * @property string $DOC_DESC
  * @property integer $CREATE_BY
  * @property string $CREATE_DATE
@@ -51,10 +53,10 @@ class EfProjectDoc extends ActiveRecord
     public function rules()
     {
         return [
-            [['PROJECT_DOC_ID', 'PROJECT_ID', 'DOC_PATH', 'CREATE_BY', 'CREATE_DATE', 'LAST_UPD_BY', 'LAST_UPD_DATE'], 'required'],
-            [['PROJECT_DOC_ID', 'PROJECT_ID', 'CREATE_BY', 'LAST_UPD_BY'], 'integer'],
+            [['PROJECT_ID', 'DOC_PATH', 'CREATE_BY', 'LAST_UPD_BY'], 'required'],
+            [['PROJECT_DOC_ID', 'PROJECT_ID'], 'integer'],
             [['CREATE_DATE', 'LAST_UPD_DATE'], 'safe'],
-            [['DOC_PATH', 'DOC_DESC'], 'string', 'max' => 255]
+            [['DOC_PATH', 'ABSOLUTE_DOC_PATH', 'FILE_NAME', 'DOC_DESC', 'CREATE_BY', 'LAST_UPD_BY'], 'string', 'max' => 255]
         ];
     }
 
@@ -67,6 +69,8 @@ class EfProjectDoc extends ActiveRecord
             'PROJECT_DOC_ID' => Yii::t('app', 'Project  Doc  ID'),
             'PROJECT_ID' => Yii::t('app', 'Project  ID'),
             'DOC_PATH' => Yii::t('app', 'Doc  Path'),
+            'ABSOLUTE_DOC_PATH' => Yii::t('app', 'Absolute Doc Path'),
+            'FILE_NAME' => Yii::t('app', 'File Name'),
             'DOC_DESC' => Yii::t('app', 'Doc  Desc'),
             'CREATE_BY' => Yii::t('app', 'Create  By'),
             'CREATE_DATE' => Yii::t('app', 'Create  Date'),

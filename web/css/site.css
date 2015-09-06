@@ -93,3 +93,14 @@ a.desc:after {
 	margin-top: auto !important;
 }
 
+/* Document upload */
+.document-upload-preview-item {
+}
+.document-upload-preview-delete-container {
+    text-align: right;
+}
+.document-upload-preview-image img{
+    width: 100%;
+}
+/* **************************** */
+

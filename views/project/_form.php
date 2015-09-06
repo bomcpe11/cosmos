@@ -4,11 +4,12 @@ use yii\helpers\Html;
 
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
+use yii\helpers\Json;
 use kartik\widgets\DepDrop;
 use kartik\widgets\Select2;
 use dosamigos\ckeditor\CKEditor;
 use yii\bootstrap\Tabs;
-use kartik\widgets\FileInput
+use kartik\widgets\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\EfProject */
@@ -345,21 +346,75 @@ use kartik\widgets\FileInput
 									// Display an initial preview of files with caption
 									// (useful in UPDATE scenarios). Set overwrite `initialPreview`
 									// to `false` to append uploaded images to the initial preview.
-									echo FileInput::widget([
-										'name' => 'PROJECT_DOC',
-										'options'=>[
-											'multiple'=>true
-										],
-										'pluginOptions' => [
-										'initialPreview'=>[
-// 											Html::img("@web/doc/32724_assignment1.pdf", ['class'=>'file-preview-image', 'alt'=>'32724_assignment1.pdf', 'title'=>'32724_assignment1.pdf']),
-// 											Html::img("@web/doc/32724_assignment2.pdf",  ['class'=>'file-preview-image', 'alt'=>'32724_assignment2.pdf', 'title'=>'32724_assignment2.pdf']),
-											'<span class="glyphicon glyphicon-list-alt docs-icon"></span><span style="display: block;text-align: center;">32724_assignment1.pdf</span>',
-											'<span class="glyphicon glyphicon-list-alt docs-icon"></span><span style="display: block;text-align: center;">32724_assignment2.pdf</span>'
-											],
-        										'overwriteInitial'=>false
-											]
-										]);
+	// 								echo FileInput::widget([
+	// 									'name' => 'PROJECT_DOC',
+	// 									'disabled' => ($model->PROJECT_ID == null)? true: false,
+	// 									'options'=>[
+	// 										'multiple'=>true
+	// 									],
+	// 									'pluginOptions' => [
+	// 										'uploadUrl' => Url::to(['document-upload']),
+	// 										'uploadExtraData' => [
+	// 											'project_id' => $model->PROJECT_ID,
+	// 										],
+	// 										'initialPreview'=>[
+	// // 											Html::img("@web/doc/32724_assignment1.pdf", ['class'=>'file-preview-image', 'alt'=>'32724_assignment1.pdf', 'title'=>'32724_assignment1.pdf']),
+	// // 											Html::img("@web/doc/32724_assignment2.pdf",  ['class'=>'file-preview-image', 'alt'=>'32724_assignment2.pdf', 'title'=>'32724_assignment2.pdf']),
+	// 											// '<span class="glyphicon glyphicon-list-alt docs-icon"></span><span style="display: block;text-align: center;">32724_assignment1.pdf</span>',
+	// 											// '<span class="glyphicon glyphicon-list-alt docs-icon"></span><span style="display: block;text-align: center;">32724_assignment2.pdf</span>'
+	// 										],
+ //        										'overwriteInitial'=>false
+	// 										]
+	// 									]);
+
+									// echo $form->field($documentUploadForm, 'file')
+									// 			->widget(FileInput::classname(), [
+									// 				'disabled' => ($model->PROJECT_ID == null)? true: false,
+									// 				'options' => [
+									// 					'class' => 'document-upload-input',
+									// 					'multiple' => true
+									// 				],
+									// 				'pluginOptions' => [
+									// 					'uploadUrl' => Url::to(['document-upload']),
+									// 					'uploadExtraData' => [
+									// 						'project_id' => $model->PROJECT_ID,
+									// 					],
+									// 					'initialPreview' => isset($documentUploadFormConfigs['initialPreview'])
+									// 											? $documentUploadFormConfigs['initialPreview']
+									// 											: [],
+									// 				]
+									// 			])->label(false);
+
+
+									echo $form->field($documentUploadForm, 'file')
+												->widget(FileInput::classname(), [
+													'disabled' => ($model->PROJECT_ID == null)? true: false,
+													'options' => [
+														'class' => 'document-upload-input',
+														'multiple' => true
+													],
+													'pluginOptions' => [
+														'uploadUrl' =>  Url::to(["document-upload"]),
+													    'uploadAsync' => true,
+													    'minFileCount' => 1,
+													    'maxFileCount' => 5,
+													    'overwriteInitial' => false,
+													    'initialPreview' => isset($documentUploadFormConfigs['initialPreview'])
+																				? $documentUploadFormConfigs['initialPreview']
+																				: [],
+													    'initialPreviewConfig' => isset($documentUploadFormConfigs['initialPreviewConfig'])
+																				? $documentUploadFormConfigs['initialPreviewConfig']
+																				: [],
+													    'uploadExtraData' => [
+													       'project_id' => $model->PROJECT_ID,
+													    ]
+													],
+													'pluginEvents' => [
+														'filepredelete' => "function(event, key) {
+											                return (!confirm('Are you sure you want to delete ?')); 
+											            }",
+													]
+												])->label(false);
 								?>
 							</div>
 						</div>
@@ -380,16 +435,17 @@ use kartik\widgets\FileInput
 									// to `false` to append uploaded images to the initial preview.
 									echo FileInput::widget([
 										'name' => 'PROJECT_IMAGE',
+										'disabled' => ($model->PROJECT_ID == null)? true: false,
 										'options'=>[
 											'multiple'=>true
 										],
 										'pluginOptions' => [
-										'initialPreview'=>[
-											Html::img("@web/images/DSC_0063-1.jpg", ['class'=>'file-preview-image', 'alt'=>'DSC_0063-1.jpg', 'title'=>'DSC_0063-1.jpg']),
-											Html::img("@web/images/teamwork-penguin.png",  ['class'=>'file-preview-image', 'alt'=>'teamwork-penguin.png', 'title'=>'teamwork-penguin.png']),
+											'initialPreview'=>[
+												Html::img("@web/images/DSC_0063-1.jpg", ['class'=>'file-preview-image', 'alt'=>'DSC_0063-1.jpg', 'title'=>'DSC_0063-1.jpg']),
+												Html::img("@web/images/teamwork-penguin.png",  ['class'=>'file-preview-image', 'alt'=>'teamwork-penguin.png', 'title'=>'teamwork-penguin.png']),
 											],
-        										'overwriteInitial'=>false
-											]
+        									'overwriteInitial'=>false
+										]
 										]);
 								?>
 							</div>
@@ -407,6 +463,11 @@ use kartik\widgets\FileInput
     <?php ActiveForm::end(); ?>
 
 </div>
-<script type="text/javascript">
-	
-</script>
+<?php
+	$this->registerJsFile(Yii::$app->request->baseUrl.'/js/views/project/form.js', 
+						[
+							'depends' => [
+								\yii\web\JqueryAsset::className()
+							]
+						]);
+?>
