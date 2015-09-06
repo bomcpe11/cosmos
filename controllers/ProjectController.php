@@ -293,9 +293,7 @@ class ProjectController extends base\AppController
         $splitFileName = explode('.', $projectDoc->FILE_NAME);
         return '<div class="file-preview-other-frame">'
                     .'<a href="'.$projectDoc->DOC_PATH.$projectDoc->FILE_NAME.'" target="_blank">'
-                        .'<div class="file-preview-other">'
-                            .'<span class="file-icon-4x">'.$documentUploadForm->getIcon($splitFileName[count($splitFileName) - 1]).'</span>'
-                        .'</div>'
+                        .'<span class="file-icon-4x">'.$documentUploadForm->getIcon($splitFileName[count($splitFileName) - 1]).'</span>'
                     .'</a>'
                 .'</div>';
     }
