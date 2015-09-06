@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use kartik\grid\GridView;
+use kartik\icons\Icon;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\EfProjectSearch */
@@ -57,6 +58,17 @@ $this->params['breadcrumbs'][] = $this->title;
                             [
                                 'class' => 'kartik\grid\ActionColumn',
                                 'template' => '{view} {update} {delete}',
+                                'buttons' => [
+                                    'delete' => function($url, $model) {
+                                        return Html::a(Icon::show('trash', [], Icon::BSG),
+                                                        ['delete'],
+                                                        [
+                                                            'title' => 'Delete',
+                                                            'class '=> 'delete-button',
+                                                            'data-id' => $model->PROJECT_ID
+                                                        ]);
+                                    }
+                                ]
                             ],
             ],
             'containerOptions'=> [
@@ -106,4 +118,29 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 </div>
 
-</div>
+<?php
+$js = <<<JS
+    $('.delete-button').on('click', function(event) {
+        event.preventDefault();
+        var id = $(this).attr('data-id'),
+            url = $(this).attr('href');
+
+        bootbox.confirm('Are you sure?', function(result) {
+            if (result) {
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: {id: id}
+                })
+                .done(function(data, textStatus, jqXHR) {
+                })
+                .fail(function(textSatatus, jqXHR, errorThrow) {
+                    bootbox.alert(errorThrow);
+                });
+            }
+        });
+    });
+JS;
+
+$this->registerJs($js);
+?>

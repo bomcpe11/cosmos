@@ -148,8 +148,10 @@ class ProjectController extends base\AppController
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete()
     {
+        $id = Yii::$app->request->post('id');
+        
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
