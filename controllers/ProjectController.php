@@ -70,9 +70,11 @@ class ProjectController extends base\AppController
         if ($model->load(Yii::$app->request->post()) && $this->setCreateParams($model) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->PROJECT_ID]);
         } else {
-        	
+        	$documentUploadForm = new DocumentUploadForm();
+
             return $this->render('create', [
                 'model' => $model,
+                'documentUploadForm' => $documentUploadForm,
             ]);
         }
     }
@@ -210,7 +212,7 @@ class ProjectController extends base\AppController
                         .'</div>'
                     .'</a>'
                 .'</div>';
-                
+
         // return '<a href="'.$projectDoc->DOC_PATH.$projectDoc->FILE_NAME.'" target="_blank">'
         //         .'</a>';
     }
