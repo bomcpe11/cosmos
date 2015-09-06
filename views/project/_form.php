@@ -166,7 +166,7 @@ use kartik\icons\Icon;
 							</div>
 							<div class="row">
 								<div class="col-md-12">
-									<?= $form->field($model, 'PROJECT_STATUS')->radioList([1=>'อยู่ระหว่างดำเนินการ',2=>'ดำเนินการเสร็จสิ้น',3=>'ยกเลิกโครงการ']); ?>
+									<?= $form->field($model, 'PROJECT_STATUS')->radioList(Yii::$app->params['projectStatuses']); ?>
 							    </div>
 							</div>
 						</div>
