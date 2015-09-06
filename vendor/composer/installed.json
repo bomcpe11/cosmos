@@ -2970,5 +2970,145 @@
             "widget",
             "yii2"
         ]
+    },
+    {
+        "name": "components/flag-icon-css",
+        "version": "0.8.2",
+        "version_normalized": "0.8.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/lipis/flag-icon-css.git",
+            "reference": "63b89f891914b589d12c6e71989a0eb54d35a7a3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/lipis/flag-icon-css/zipball/63b89f891914b589d12c6e71989a0eb54d35a7a3",
+            "reference": "63b89f891914b589d12c6e71989a0eb54d35a7a3",
+            "shasum": ""
+        },
+        "time": "2015-09-05 08:34:56",
+        "type": "component",
+        "extra": {
+            "component": {
+                "name": "flag-icon-css",
+                "files": [
+                    "less/**",
+                    "css/**",
+                    "flags/**"
+                ]
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Panayiotis Lipiridis (Lipis)",
+                "email": "lipiridis@gmail.com"
+            }
+        ],
+        "description": "CSS for vector based country flags"
+    },
+    {
+        "name": "fortawesome/font-awesome",
+        "version": "v4.4.0",
+        "version_normalized": "4.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/FortAwesome/Font-Awesome.git",
+            "reference": "e554555d73a44e0a7d11b0361ad7a5325a5f551c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/e554555d73a44e0a7d11b0361ad7a5325a5f551c",
+            "reference": "e554555d73a44e0a7d11b0361ad7a5325a5f551c",
+            "shasum": ""
+        },
+        "require-dev": {
+            "jekyll": "1.0.2",
+            "lessc": "1.4.2"
+        },
+        "time": "2015-07-28 21:55:03",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "4.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "OFL-1.1",
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Dave Gandy",
+                "email": "dave@fontawesome.io",
+                "homepage": "http://twitter.com/davegandy",
+                "role": "Developer"
+            }
+        ],
+        "description": "The iconic font and CSS framework",
+        "homepage": "http://fontawesome.io/",
+        "keywords": [
+            "FontAwesome",
+            "awesome",
+            "bootstrap",
+            "font",
+            "icon"
+        ]
+    },
+    {
+        "name": "kartik-v/yii2-icons",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/kartik-v/yii2-icons.git",
+            "reference": "bce5f85e8e9b76a11e34dd43156f2db4bdb566a5"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/kartik-v/yii2-icons/zipball/bce5f85e8e9b76a11e34dd43156f2db4bdb566a5",
+            "reference": "bce5f85e8e9b76a11e34dd43156f2db4bdb566a5",
+            "shasum": ""
+        },
+        "require": {
+            "components/flag-icon-css": "*",
+            "fortawesome/font-awesome": "*",
+            "kartik-v/yii2-krajee-base": "*",
+            "yiisoft/yii2-jui": "*"
+        },
+        "time": "2015-04-21 15:15:10",
+        "type": "yii2-extension",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "kartik\\icons\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD 3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Kartik Visweswaran",
+                "email": "kartikv2@gmail.com",
+                "homepage": "http://demos.krajee.com/"
+            }
+        ],
+        "description": "Set of icon frameworks for use in Yii Framework 2.0",
+        "homepage": "https://github.com/kartik-v/yii2-icons",
+        "keywords": [
+            "extension",
+            "font",
+            "icon",
+            "yii",
+            "yii2"
+        ]
     }
 ]
