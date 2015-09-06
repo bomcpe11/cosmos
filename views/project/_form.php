@@ -343,49 +343,6 @@ use kartik\widgets\FileInput;
 						<div class="panel-body search-result-contents">
 							<div class="row">
 								<?php 
-									// Display an initial preview of files with caption
-									// (useful in UPDATE scenarios). Set overwrite `initialPreview`
-									// to `false` to append uploaded images to the initial preview.
-	// 								echo FileInput::widget([
-	// 									'name' => 'PROJECT_DOC',
-	// 									'disabled' => ($model->PROJECT_ID == null)? true: false,
-	// 									'options'=>[
-	// 										'multiple'=>true
-	// 									],
-	// 									'pluginOptions' => [
-	// 										'uploadUrl' => Url::to(['document-upload']),
-	// 										'uploadExtraData' => [
-	// 											'project_id' => $model->PROJECT_ID,
-	// 										],
-	// 										'initialPreview'=>[
-	// // 											Html::img("@web/doc/32724_assignment1.pdf", ['class'=>'file-preview-image', 'alt'=>'32724_assignment1.pdf', 'title'=>'32724_assignment1.pdf']),
-	// // 											Html::img("@web/doc/32724_assignment2.pdf",  ['class'=>'file-preview-image', 'alt'=>'32724_assignment2.pdf', 'title'=>'32724_assignment2.pdf']),
-	// 											// '<span class="glyphicon glyphicon-list-alt docs-icon"></span><span style="display: block;text-align: center;">32724_assignment1.pdf</span>',
-	// 											// '<span class="glyphicon glyphicon-list-alt docs-icon"></span><span style="display: block;text-align: center;">32724_assignment2.pdf</span>'
-	// 										],
- //        										'overwriteInitial'=>false
-	// 										]
-	// 									]);
-
-									// echo $form->field($documentUploadForm, 'file')
-									// 			->widget(FileInput::classname(), [
-									// 				'disabled' => ($model->PROJECT_ID == null)? true: false,
-									// 				'options' => [
-									// 					'class' => 'document-upload-input',
-									// 					'multiple' => true
-									// 				],
-									// 				'pluginOptions' => [
-									// 					'uploadUrl' => Url::to(['document-upload']),
-									// 					'uploadExtraData' => [
-									// 						'project_id' => $model->PROJECT_ID,
-									// 					],
-									// 					'initialPreview' => isset($documentUploadFormConfigs['initialPreview'])
-									// 											? $documentUploadFormConfigs['initialPreview']
-									// 											: [],
-									// 				]
-									// 			])->label(false);
-
-
 									echo $form->field($documentUploadForm, 'file')
 												->widget(FileInput::classname(), [
 													'disabled' => ($model->PROJECT_ID == null)? true: false,
