@@ -400,20 +400,50 @@ use kartik\icons\Icon;
 									// Display an initial preview of files with caption
 									// (useful in UPDATE scenarios). Set overwrite `initialPreview`
 									// to `false` to append uploaded images to the initial preview.
-									echo FileInput::widget([
-										'name' => 'PROJECT_IMAGE',
-										'disabled' => ($model->PROJECT_ID == null)? true: false,
-										'options'=>[
-											'multiple'=>true
-										],
-										'pluginOptions' => [
-											'initialPreview'=>[
-												Html::img("@web/images/DSC_0063-1.jpg", ['class'=>'file-preview-image', 'alt'=>'DSC_0063-1.jpg', 'title'=>'DSC_0063-1.jpg']),
-												Html::img("@web/images/teamwork-penguin.png",  ['class'=>'file-preview-image', 'alt'=>'teamwork-penguin.png', 'title'=>'teamwork-penguin.png']),
-											],
-        									'overwriteInitial'=>false
-										]
-										]);
+									// echo FileInput::widget([
+									// 	'name' => 'PROJECT_IMAGE',
+									// 	'disabled' => ($model->PROJECT_ID == null)? true: false,
+									// 	'options'=>[
+									// 		'multiple'=>true
+									// 	],
+									// 	'pluginOptions' => [
+									// 		'initialPreview'=>[
+									// 			Html::img("@web/images/DSC_0063-1.jpg", ['class'=>'file-preview-image', 'alt'=>'DSC_0063-1.jpg', 'title'=>'DSC_0063-1.jpg']),
+									// 			Html::img("@web/images/teamwork-penguin.png",  ['class'=>'file-preview-image', 'alt'=>'teamwork-penguin.png', 'title'=>'teamwork-penguin.png']),
+									// 		],
+        	// 								'overwriteInitial'=>false
+									// 	]
+									// 	]);
+									echo $form->field($imageUploadForm, 'file')
+												->widget(FileInput::classname(), [
+													'disabled' => ($model->PROJECT_ID == null)? true: false,
+													'options' => [
+														'class' => 'document-upload-input',
+														'multiple' => true
+													],
+													'pluginOptions' => [
+														'uploadUrl' =>  Url::to(["document-upload"]),
+													    'uploadAsync' => true,
+													    'minFileCount' => 1,
+													    'maxFileCount' => 5,
+													    'overwriteInitial' => false,
+													    'initialPreview' => isset($imageUploadFormConfigs['initialPreview'])
+																				? $imageUploadFormConfigs['initialPreview']
+																				: [],
+													    'initialPreviewConfig' => isset($imageUploadFormConfigs['initialPreviewConfig'])
+																				? $imageUploadFormConfigs['initialPreviewConfig']
+																				: [],
+													    'uploadExtraData' => [
+													       'project_id' => $model->PROJECT_ID,
+													    ],
+													    'allowedFileExtensions' => ['jpg', 'gif', 'png',],
+													],
+													'pluginEvents' => [
+														'filepredelete' => "function(event, key) {
+											                return (!confirm('Are you sure you want to delete ?'));
+											            }",
+													]
+												])->label(false);
 								?>
 							</div>
 						</div>

@@ -13,6 +13,7 @@ use app\models\EfProjectDoc;
 use app\models\EfProjectImage;
 use app\models\EfProjectSearch;
 use app\models\DocumentUploadForm;
+use app\models\ImageUploadForm;
 
 /**
  * ProjectController implements the CRUD actions for EfProject model.
@@ -70,11 +71,13 @@ class ProjectController extends base\AppController
         if ($model->load(Yii::$app->request->post()) && $this->setCreateParams($model) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->PROJECT_ID]);
         } else {
-        	$documentUploadForm = new DocumentUploadForm();
+            $documentUploadForm = new DocumentUploadForm();
+        	$imageUploadForm = new ImageUploadForm();
 
             return $this->render('create', [
                 'model' => $model,
                 'documentUploadForm' => $documentUploadForm,
+                'imageUploadForm' => $imageUploadForm,
             ]);
         }
     }
@@ -111,10 +114,15 @@ class ProjectController extends base\AppController
                 array_push($documentUploadFormConfigs['initialPreviewConfig'], $this->getDocumentPreviewConfig($value));
             }
 
+            $imageUploadForm = new ImageUploadForm();
+            $imageUploadFormConfigs = [];
+
             return $this->render('update', [
                 'model' => $model,
                 'documentUploadForm' => $documentUploadForm,
-                'documentUploadFormConfigs' => $documentUploadFormConfigs
+                'documentUploadFormConfigs' => $documentUploadFormConfigs,
+                'imageUploadForm' => $imageUploadForm,
+                'imageUploadFormConfigs' => $imageUploadFormConfigs
             ]);
         }
     }
