@@ -72,13 +72,13 @@ class EfProjectPlanAct extends ActiveRecord
     {
         return [
             'PROJECT_PLAN_ACT_ID' => Yii::t('app', 'Project  Plan  Act  ID'),
-            'PLAN_ACT_NAME' => Yii::t('app', 'Plan  Act  Name'),
-            'SEQ' => Yii::t('app', 'Seq'),
-            'BUDGET_PLAN' => Yii::t('app', 'Budget  Plan'),
+            'PLAN_ACT_NAME' => Yii::t('app', 'ชื่อแผนงาน/กิจกรรมหลัก/กิจกรรมรอง'),
+            'SEQ' => Yii::t('app', 'ลำดับการแสดงผล'),
+            'BUDGET_PLAN' => Yii::t('app', 'แผนการใช้จ่าย'),
             'LEVEL' => Yii::t('app', 'Level'),
             'PARENT_ID' => Yii::t('app', 'Parent  ID'),
             'PROJECT_ID' => Yii::t('app', 'Project  ID'),
-            'STATUS' => Yii::t('app', 'Status'),
+            'STATUS' => Yii::t('app', 'สถานะ'),
             'CREATE_BY' => Yii::t('app', 'Create  By'),
             'CREATE_DATE' => Yii::t('app', 'Create  Date'),
             'LAST_UPD_BY' => Yii::t('app', 'Last  Upd  By'),
