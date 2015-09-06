@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use kartik\icons\Icon;
+use app\models\EfProjectType;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\EfProjectSearch */
@@ -39,7 +40,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'filterInputOptions'=>['placeholder'=>''],
                             ] ,
                             'PLAN_NAME',
-                            //'จัดกลุ่ม',
+                            [
+                                'attribute' => 'PROJECT_TYPE_ID',
+                                'value' => function ($model, $key, $index, $column) {
+                                    return EfProjectType::findOne($model[$column->attribute])->PROJECT_TYPE_NAME;
+                                }
+                            ],
                             [
                                 'attribute'=>'PROJECT_STATUS', 
                                 'value'=> function ($model, $key, $index, $widget) {
