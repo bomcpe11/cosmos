@@ -422,7 +422,7 @@ use kartik\icons\Icon;
 														'multiple' => true
 													],
 													'pluginOptions' => [
-														'uploadUrl' =>  Url::to(["document-upload"]),
+														'uploadUrl' =>  Url::to(["image-upload"]),
 													    'uploadAsync' => true,
 													    'minFileCount' => 1,
 													    'maxFileCount' => 5,

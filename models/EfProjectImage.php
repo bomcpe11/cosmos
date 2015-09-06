@@ -54,7 +54,7 @@ class EfProjectImage extends ActiveRecord
     public function rules()
     {
         return [
-            [['PROJECT_IMAGE_ID', 'PROJECT_ID', 'IMAGE_PATH', 'THUMBNAIL_IMAGE_PATH', 'CREATE_BY', 'LAST_UPD_BY'], 'required'],
+            [['PROJECT_ID', 'IMAGE_PATH', 'THUMBNAIL_IMAGE_PATH', 'CREATE_BY', 'LAST_UPD_BY'], 'required'],
             [['PROJECT_IMAGE_ID', 'PROJECT_ID', 'CREATE_BY', 'LAST_UPD_BY'], 'integer'],
             [['CREATE_DATE', 'LAST_UPD_DATE'], 'safe'],
             [['ABSOLUTE_IMAGE_PATH', 'IMAGE_PATH', 'FILE_NAME', 'THUMBNAIL_IMAGE_PATH', 'IMAGE_DESC'], 'string', 'max' => 255]

@@ -14,6 +14,9 @@ class ImageUploadForm extends Model
 	 */
 	public $file;
 	public $image_file;
+	public $fileName;
+	public $absolutePath;
+	public $urlPath;
 
 	/**
 	 * @return array the validation rules.
@@ -25,17 +28,21 @@ class ImageUploadForm extends Model
 	    ];
 	}
 
-	public function upload($path)
+	public function upload()
 	{
-		$fileName = '';
+		$this->absolutePath = \Yii::getAlias('@webroot').'/images/';
+        $this->urlPath = \Yii::getAlias('@web').'/images/';
 
 		if ($this->validate()) {
-			$fileName = $this->getFileName();
-            $this->file->saveAs($path.$fileName);
+			$this->fileName = $this->getFileName();
 
-            return $fileName;
+            if ($this->file->saveAs($this->absolutePath.$this->fileName)) {
+            	return true;
+            } else {
+            	return false;
+            }
         } else {
-            return $fileName;
+        	return false;
         }
 	}
 
