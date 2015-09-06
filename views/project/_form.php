@@ -10,6 +10,7 @@ use kartik\widgets\Select2;
 use dosamigos\ckeditor\CKEditor;
 use yii\bootstrap\Tabs;
 use kartik\widgets\FileInput;
+use kartik\icons\Icon;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\EfProject */
@@ -364,11 +365,20 @@ use kartik\widgets\FileInput;
 																				: [],
 													    'uploadExtraData' => [
 													       'project_id' => $model->PROJECT_ID,
+													    ],
+													    'allowedFileExtensions' => ['docx', 'xlsx', 'pptx', 'pdf'],
+													    'allowedPreviewTypes' => false,
+													    'previewFileIcon' => Icon::show('file'),
+													    'previewFileIconSettings' => [
+													        'docx' => Icon::show('file-word-o', ['class' => 'text-primary']),
+													        'xlsx' => Icon::show('file-excel-o', ['class' => 'text-success']),
+													        'pptx' => Icon::show('file-powerpoint-o', ['class' => 'text-danger']),
+													        'pdf' => Icon::show('file-pdf-o', ['class' => 'text-danger']),
 													    ]
 													],
 													'pluginEvents' => [
 														'filepredelete' => "function(event, key) {
-											                return (!confirm('Are you sure you want to delete ?')); 
+											                return (!confirm('Are you sure you want to delete ?'));
 											            }",
 													]
 												])->label(false);

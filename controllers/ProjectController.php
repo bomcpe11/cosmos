@@ -203,9 +203,16 @@ class ProjectController extends base\AppController
 
     private function getDocumentPreviewTamplate($projectDoc)
     {
-        return '<a href="'.$projectDoc->DOC_PATH.$projectDoc->FILE_NAME.'" target="_blank">'
-                    .'<img style="height:100px" src="'.Url::to('@web/images/word-file-icon.png').'">'
-                .'</a>';
+         return '<div class="file-preview-other-frame">'
+                    .'<a href="'.$projectDoc->DOC_PATH.$projectDoc->FILE_NAME.'" target="_blank">'
+                        .'<div class="file-preview-other">'
+                            .'<span class="file-icon-4x"><i class="text-danger fa fa-file-pdf-o"></i> </span>'
+                        .'</div>'
+                    .'</a>'
+                .'</div>';
+                
+        // return '<a href="'.$projectDoc->DOC_PATH.$projectDoc->FILE_NAME.'" target="_blank">'
+        //         .'</a>';
     }
 
     private function getDocumentPreviewConfig($projectDoc)
