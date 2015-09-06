@@ -151,7 +151,7 @@ class ProjectController extends base\AppController
     public function actionDelete()
     {
         $id = Yii::$app->request->post('id');
-        
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -293,7 +293,7 @@ class ProjectController extends base\AppController
          return '<div class="file-preview-other-frame">'
                     .'<a href="'.$projectDoc->DOC_PATH.$projectDoc->FILE_NAME.'" target="_blank">'
                         .'<div class="file-preview-other">'
-                            .'<span class="file-icon-4x"><i class="text-danger fa fa-file-pdf-o"></i> </span>'
+                            .'<span class="file-icon-4x"><i class="fa fa-file"></i> </span>'
                         .'</div>'
                     .'</a>'
                 .'</div>';

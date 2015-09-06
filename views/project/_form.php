@@ -366,15 +366,19 @@ use kartik\icons\Icon;
 													    'uploadExtraData' => [
 													       'project_id' => $model->PROJECT_ID,
 													    ],
-													    'allowedFileExtensions' => ['docx', 'xlsx', 'pptx', 'pdf'],
+													    'allowedFileExtensions' => $documentUploadForm->getAllowedFileExtensions(),
 													    'allowedPreviewTypes' => false,
 													    'previewFileIcon' => Icon::show('file'),
 													    'previewFileIconSettings' => [
-													        'docx' => Icon::show('file-word-o', ['class' => 'text-primary']),
-													        'xlsx' => Icon::show('file-excel-o', ['class' => 'text-success']),
-													        'pptx' => Icon::show('file-powerpoint-o', ['class' => 'text-danger']),
-													        'pdf' => Icon::show('file-pdf-o', ['class' => 'text-danger']),
-													    ]
+													        'doc' => $documentUploadForm->getIcon('doc'),
+													        'docx' => $documentUploadForm->getIcon('docx'),
+													        'xls' => $documentUploadForm->getIcon('xls'),
+													        'xlsx' => $documentUploadForm->getIcon('xlsx'),
+													        'ppt' => $documentUploadForm->getIcon('ppt'),
+													        'pptx' => $documentUploadForm->getIcon('pptx'),
+													        'pdf' => $documentUploadForm->getIcon('pdf'),
+													        'txt' => $documentUploadForm->getIcon('txt'),
+													    ],
 													],
 													'pluginEvents' => [
 														'filepredelete' => "function(event, key) {
