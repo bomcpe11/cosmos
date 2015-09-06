@@ -54,9 +54,9 @@ class EfProjectDoc extends ActiveRecord
     {
         return [
             [['PROJECT_ID', 'DOC_PATH', 'CREATE_BY', 'LAST_UPD_BY'], 'required'],
-            [['PROJECT_DOC_ID', 'PROJECT_ID'], 'integer'],
+            [['PROJECT_DOC_ID', 'PROJECT_ID', 'CREATE_BY', 'LAST_UPD_BY'], 'integer'],
             [['CREATE_DATE', 'LAST_UPD_DATE'], 'safe'],
-            [['DOC_PATH', 'ABSOLUTE_DOC_PATH', 'FILE_NAME', 'DOC_DESC', 'CREATE_BY', 'LAST_UPD_BY'], 'string', 'max' => 255]
+            [['DOC_PATH', 'ABSOLUTE_DOC_PATH', 'FILE_NAME', 'DOC_DESC'], 'string', 'max' => 255]
         ];
     }
 

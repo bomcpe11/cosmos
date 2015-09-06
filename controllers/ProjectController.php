@@ -159,8 +159,8 @@ class ProjectController extends base\AppController
             $projectDoc->ABSOLUTE_DOC_PATH = $absolutePath;
             $projectDoc->FILE_NAME = $fileName;
             $projectDoc->DOC_DESC = '';
-            $projectDoc->CREATE_BY = $user->email;
-            $projectDoc->LAST_UPD_BY = $user->email;
+            $projectDoc->CREATE_BY = $user->id;
+            $projectDoc->LAST_UPD_BY = $user->id;
 
             if ($projectDoc->save()) {
                 $result = [
