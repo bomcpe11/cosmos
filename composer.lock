@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "aafd2e7bba080bf067b64ae90869777e",
+    "hash": "59a94d752c0b2d9f011030d1be98e154",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -710,12 +710,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "c97a092cf6aa3f4fd870e8f60a993adcc1d35e7f"
+                "reference": "d0b583face0924988fcf7e949e5afc7435a47dcb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/c97a092cf6aa3f4fd870e8f60a993adcc1d35e7f",
-                "reference": "c97a092cf6aa3f4fd870e8f60a993adcc1d35e7f",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/d0b583face0924988fcf7e949e5afc7435a47dcb",
+                "reference": "d0b583face0924988fcf7e949e5afc7435a47dcb",
                 "shasum": ""
             },
             "type": "library",
@@ -750,7 +750,7 @@
                 "progress",
                 "upload"
             ],
-            "time": "2015-09-05 03:58:38"
+            "time": "2015-09-07 10:19:13"
         },
         {
             "name": "kartik-v/bootstrap-popover-x",
@@ -1501,16 +1501,16 @@
         },
         {
             "name": "kartik-v/yii2-widget-datepicker",
-            "version": "v1.3.3",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-datepicker.git",
-                "reference": "368b181ef658c05707fe41dd16eee4d9ffd9da38"
+                "reference": "f9ee0fda46ec4188d42b1187053c4536e03b1c5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/368b181ef658c05707fe41dd16eee4d9ffd9da38",
-                "reference": "368b181ef658c05707fe41dd16eee4d9ffd9da38",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/f9ee0fda46ec4188d42b1187053c4536e03b1c5f",
+                "reference": "f9ee0fda46ec4188d42b1187053c4536e03b1c5f",
                 "shasum": ""
             },
             "require": {
@@ -1546,7 +1546,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-07-19 04:49:03"
+            "time": "2015-08-14 13:47:10"
         },
         {
             "name": "kartik-v/yii2-widget-datetimepicker",
@@ -3003,7 +3003,8 @@
         "kartik-v/yii2-widget-select2": 20,
         "kartik-v/yii2-widget-depdrop": 20,
         "kartik-v/bootstrap-fileinput": 20,
-        "kartik-v/yii2-icons": 20
+        "kartik-v/yii2-icons": 20,
+        "kartik-v/yii2-widget-datepicker": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

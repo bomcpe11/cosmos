@@ -17,6 +17,8 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Clear field' => 'Wyczyść',
-    'Select date' => 'Wybierz datę',
+    'Clear field' => 'Καθαρισμός',
+    'Select date' => 'Επιλογή ημερ/νίας',
 ];
+
+    Status API Training Shop Blog About Help
