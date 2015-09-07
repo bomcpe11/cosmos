@@ -18,14 +18,18 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+    	'css/main.css',
         'css/site.css',
-        'css/override.css'
+        'css/override.css',
     ];
     public $js = [
-        'js/main.js' ,
+//         'js/vendor.js' ,
+//         'js/ui.js' ,
+//         'js/app.js' ,
         'js/bootbox.min.js' ,
     ];
     public $depends = [
+    	'yii\jui\JuiAsset',
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
     ];
