@@ -144,7 +144,7 @@ class ProjectController extends base\AppController
 
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        // return $this->redirect(['index']);
     }
 
     /* *** Ajax function *** */

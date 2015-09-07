@@ -128,7 +128,7 @@ $js = <<<JS
         var id = $(this).attr('data-id'),
             url = $(this).attr('href');
 
-        bootbox.confirm('Are you sure?', function(result) {
+        bootbox.confirm('กรุณายืนยัน', function(result) {
             if (result) {
                 $.ajax({
                     type: 'POST',
@@ -136,6 +136,9 @@ $js = <<<JS
                     data: {id: id}
                 })
                 .done(function(data, textStatus, jqXHR) {
+                    bootbox.alert('ลบข้อมูลสำเร็จ', function() {
+                        location.reload();
+                    });
                 })
                 .fail(function(textSatatus, jqXHR, errorThrow) {
                     bootbox.alert(errorThrow);
