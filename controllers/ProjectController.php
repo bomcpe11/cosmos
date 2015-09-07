@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
+use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
@@ -13,6 +14,7 @@ use app\models\EfProjectDoc;
 use app\models\EfProjectImage;
 use app\models\EfProjectSearch;
 use app\models\DocumentUploadForm;
+use app\models\ImageUploadForm;
 
 /**
  * ProjectController implements the CRUD actions for EfProject model.
@@ -52,9 +54,18 @@ class ProjectController extends base\AppController
      * @return mixed
      */
     public function actionView($id)
-    {
+    {   
+        $model = $this->findModel($id);
+        $documentUploadForm = new DocumentUploadForm();
+        $imageUploadForm = new ImageUploadForm();
+        
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'mode' => 'view',
+            'documentUploadForm' => $documentUploadForm,
+            'documentUploadFormConfigs' => $this->getDocumentUploadFormConfigs($model->PROJECT_ID, $documentUploadForm),
+            'imageUploadForm' => $imageUploadForm,
+            'imageUploadFormConfigs' => $this->getImageUploadFormConfigs($model->PROJECT_ID)
         ]);
     }
 
@@ -70,9 +81,14 @@ class ProjectController extends base\AppController
         if ($model->load(Yii::$app->request->post()) && $this->setCreateParams($model) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->PROJECT_ID]);
         } else {
-        	
+            $documentUploadForm = new DocumentUploadForm();
+        	$imageUploadForm = new ImageUploadForm();
+
             return $this->render('create', [
                 'model' => $model,
+                'mode' => 'create',
+                'documentUploadForm' => $documentUploadForm,
+                'imageUploadForm' => $imageUploadForm,
             ]);
         }
     }
@@ -98,21 +114,15 @@ class ProjectController extends base\AppController
             return $this->redirect(['view', 'id' => $model->PROJECT_ID]);
         } else {
             $documentUploadForm = new DocumentUploadForm();
-            $documentUploadFormConfigs = [];
-
-            $documentUploadFormConfigs['initialPreview'] = [];
-            $documentUploadFormConfigs['initialPreviewConfig'] = [];
-
-            $projectDoc = EfProjectDoc::find()->where(['PROJECT_ID' => $id])->all();
-            foreach ($projectDoc as $key => $value) {
-                array_push($documentUploadFormConfigs['initialPreview'], $this->getDocumentPreviewTamplate($value));
-                array_push($documentUploadFormConfigs['initialPreviewConfig'], $this->getDocumentPreviewConfig($value));
-            }
+            $imageUploadForm = new ImageUploadForm();
 
             return $this->render('update', [
                 'model' => $model,
+                'mode' => 'update',
                 'documentUploadForm' => $documentUploadForm,
-                'documentUploadFormConfigs' => $documentUploadFormConfigs
+                'documentUploadFormConfigs' => $this->getDocumentUploadFormConfigs($model->PROJECT_ID, $documentUploadForm),
+                'imageUploadForm' => $imageUploadForm,
+                'imageUploadFormConfigs' => $this->getImageUploadFormConfigs($model->PROJECT_ID)
             ]);
         }
     }
@@ -128,14 +138,16 @@ class ProjectController extends base\AppController
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete()
     {
+        $id = Yii::$app->request->post('id');
+
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        // return $this->redirect(['index']);
     }
 
-    // Ajax function
+    /* *** Ajax function *** */
     public function actionDocumentUpload()
     {
         $result = [];
@@ -157,13 +169,13 @@ class ProjectController extends base\AppController
             $projectDoc->ABSOLUTE_DOC_PATH = $absolutePath;
             $projectDoc->FILE_NAME = $fileName;
             $projectDoc->DOC_DESC = '';
-            $projectDoc->CREATE_BY = $user->email;
-            $projectDoc->LAST_UPD_BY = $user->email;
+            $projectDoc->CREATE_BY = $user->id;
+            $projectDoc->LAST_UPD_BY = $user->id;
 
             if ($projectDoc->save()) {
                 $result = [
                             'initialPreview' => [
-                                $this->getDocumentPreviewTamplate($projectDoc)
+                                $this->getDocumentPreviewTamplate($model, $projectDoc)
                             ],
                            'initialPreviewConfig' => [
                                 $this->getDocumentPreviewConfig($projectDoc)
@@ -201,11 +213,95 @@ class ProjectController extends base\AppController
         echo Json::encode($result);
     }
 
-    private function getDocumentPreviewTamplate($projectDoc)
+    public function actionImageUpload()
     {
-        return '<a href="'.$projectDoc->DOC_PATH.$projectDoc->FILE_NAME.'" target="_blank">'
-                    .'<img style="height:100px" src="'.Url::to('@web/images/word-file-icon.png').'">'
-                .'</a>';
+        $result = [];
+
+        $user = Yii::$app->user->identity;
+        $imageUploadForm = new ImageUploadForm();
+        $imageUploadForm->file = UploadedFile::getInstance($imageUploadForm, 'file');
+        
+        if (Yii::$app->request->isPost && $imageUploadForm->file != null) {
+            $imageUploadForm->upload();
+
+            $projectImage = new EfProjectImage();
+            $projectImage->PROJECT_ID = Yii::$app->request->post('project_id');
+            $projectImage->ABSOLUTE_IMAGE_PATH = $imageUploadForm->absolutePath;
+            $projectImage->IMAGE_PATH = $imageUploadForm->urlPath;
+            $projectImage->FILE_NAME = $imageUploadForm->fileName;
+            $projectImage->THUMBNAIL_IMAGE_PATH = 'duumy';
+            $projectImage->IMAGE_DESC = '';
+            $projectImage->CREATE_BY = $user->id;
+            $projectImage->LAST_UPD_BY = $user->id;
+
+            if ($projectImage->save()) {
+                $result = [
+                            'initialPreview' => [
+                                $this->getImagePreviewTamplate($projectImage)
+                            ],
+                           'initialPreviewConfig' => [
+                                $this->getImagePreviewConfig($projectImage)
+                            ],
+                        ];
+            } else {
+                Yii::trace(print_r($projectImage->errors, true), 'debug');
+                $result = ['error' => 'Saved fail'];
+            }
+        } else {
+            $result = ['error' => 'กรุณาเลือกไฟล์'];
+        }
+
+        echo Json::encode($result);
+    }
+
+    public function actionDeleteImageUpload()
+    {
+        $result = [];
+        $user = Yii::$app->user->identity;
+        $postData = Yii::$app->request->post();
+
+        $projectImage = EfProjectImage::findOne($postData['key']);
+        if (!empty($projectImage)) {
+            if (unlink($projectImage->ABSOLUTE_IMAGE_PATH.$projectImage->FILE_NAME)) {
+                $projectImage->delete();
+            } else {
+                Yii::trace(print_r(error_get_last()), 'debug');
+                $result = ['error' => 'ลบไฟล์ผิดพลาด'];
+            }
+        } else {
+            $result = ['error' => 'ไม่พบข้อมูล'];
+        }
+
+        echo Json::encode($result);
+    }
+    /* ************************************************* */
+
+
+    /* *** private function *** */
+    private function getDocumentUploadFormConfigs($projectId, $documentUploadForm)
+    {
+        $documentUploadFormConfigs = [];
+        $documentUploadFormConfigs['initialPreview'] = [];
+        $documentUploadFormConfigs['initialPreviewConfig'] = [];
+
+        $projectDoc = EfProjectDoc::find()->where(['PROJECT_ID' => $projectId])->all();
+        foreach ($projectDoc as $key => $value) {
+            array_push($documentUploadFormConfigs['initialPreview'], $this->getDocumentPreviewTamplate($documentUploadForm, $value));
+            array_push($documentUploadFormConfigs['initialPreviewConfig'], $this->getDocumentPreviewConfig($value));
+        }
+
+        return $documentUploadFormConfigs;
+    }
+
+
+    private function getDocumentPreviewTamplate($documentUploadForm, $projectDoc)
+    {
+        $splitFileName = explode('.', $projectDoc->FILE_NAME);
+        return '<div class="file-preview-other-frame">'
+                    .'<a href="'.$projectDoc->DOC_PATH.$projectDoc->FILE_NAME.'" target="_blank">'
+                        .'<span class="file-icon-4x">'.$documentUploadForm->getIcon($splitFileName[count($splitFileName) - 1]).'</span>'
+                    .'</a>'
+                .'</div>';
     }
 
     private function getDocumentPreviewConfig($projectDoc)
@@ -218,6 +314,50 @@ class ProjectController extends base\AppController
                     'extra' => []
                 ];            
     }
+
+    private function getImageUploadFormConfigs($projectId)
+    {
+        $imageUploadFormConfigs = [];
+        $imageUploadFormConfigs['initialPreview'] = [];
+        $imageUploadFormConfigs['initialPreviewConfig'] = [];
+
+        $projectImage = EfProjectImage::find()->where(['PROJECT_ID' => $projectId])->all();
+        foreach ($projectImage as $key => $value) {
+            array_push($imageUploadFormConfigs['initialPreview'], $this->getImagePreviewTamplate($value));
+            array_push($imageUploadFormConfigs['initialPreviewConfig'], $this->getImagePreviewConfig($value));
+        }
+
+        return $imageUploadFormConfigs;
+    }
+
+    private function getImagePreviewTamplate($projectImage)
+    {
+        // string a ( $text, $url = null, $options = [] )
+        return Html::a(Html::img($projectImage->IMAGE_PATH.$projectImage->FILE_NAME,
+                        [
+                            'title' => $projectImage->FILE_NAME,
+                            'alt' => $projectImage->FILE_NAME,
+                            'style' => [
+                                'height' => '100px'
+                            ]
+                        ]),
+                    $projectImage->IMAGE_PATH.$projectImage->FILE_NAME,
+                    [
+                        'target' => '_blank'
+                    ]);
+    }
+
+    private function getImagePreviewConfig($projectImage)
+    {
+        return [
+                    'caption' => $projectImage->FILE_NAME, 
+                    'width' => "120px", 
+                    'url' => Url::to(['delete-image-upload']), 
+                    'key' => $projectImage->PROJECT_IMAGE_ID,
+                    'extra' => []
+                ];            
+    }
+    /* ************************************************* */
     
     /**
      * Finds the EfProject model based on its primary key value.

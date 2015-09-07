@@ -12,12 +12,13 @@ $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="ef-project-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?= $this->render('_form', [
         'model' => $model,
+        'mode' => $mode,
         'documentUploadForm' => $documentUploadForm,
-        'documentUploadFormConfigs' => $documentUploadFormConfigs
+        'documentUploadFormConfigs' => $documentUploadFormConfigs,
+        'imageUploadForm' => $imageUploadForm,
+        'imageUploadFormConfigs' => $imageUploadFormConfigs
     ]) ?>
 
 </div>

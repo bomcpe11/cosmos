@@ -11,6 +11,7 @@ use app\models\EfThaiProvince;
 use app\models\EfThaiAmphur;
 use app\models\EfThaiDistrict;
 use app\models\EfDivision;
+use app\models\EfProjectType;
 
 class AjaxController extends Controller
 {
@@ -21,9 +22,12 @@ class AjaxController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['get-amphur-list', 
-                        		'get-district-list', 
-                        		'get-efdivision-list'],
+                        'actions' => [
+                                        'get-amphur-list', 
+                                		'get-district-list', 
+                                		'get-efdivision-list',
+                                        'get-project-group-list'
+                                    ],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -65,6 +69,32 @@ class AjaxController extends Controller
     	}
     
     	echo Json::encode(['output' => $divisionList, 'selected' => '']);
+    }
+
+   
+    /**
+     * This function is used to return the data to the DepDrop widget
+     * See more information on http://demos.krajee.com/widget-details/depdrop
+     */
+    public function actionGetProjectGroupList()
+    {
+        $projectGroupList = [];
+        $postData = Yii::$app->request->post('depdrop_all_params');
+
+        if (isset($postData['efproject-project_group_id'])) {
+            $efProjectType = EfProjectType::find()
+                                    ->where(['PROJECT_GROUP_ID' => $postData['efproject-project_group_id']])
+                                    ->all();
+
+            $projectGroupList = ArrayHelper::toArray($efProjectType, [
+                                    'app\models\EfProjectType' => [
+                                        'id' => 'PROJECT_TYPE_ID',
+                                        'name' => 'PROJECT_TYPE_NAME'
+                                    ],
+                                ]);
+        }
+
+        echo Json::encode(['output' => $projectGroupList, 'selected' => '']);
     }
 
     /**
