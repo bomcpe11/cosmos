@@ -54,9 +54,18 @@ class ProjectController extends base\AppController
      * @return mixed
      */
     public function actionView($id)
-    {
+    {   
+        $model = $this->findModel($id);
+        $documentUploadForm = new DocumentUploadForm();
+        $imageUploadForm = new ImageUploadForm();
+        
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'mode' => 'view',
+            'documentUploadForm' => $documentUploadForm,
+            'documentUploadFormConfigs' => $this->getDocumentUploadFormConfigs($model->PROJECT_ID, $documentUploadForm),
+            'imageUploadForm' => $imageUploadForm,
+            'imageUploadFormConfigs' => $this->getImageUploadFormConfigs($model->PROJECT_ID)
         ]);
     }
 
@@ -77,6 +86,7 @@ class ProjectController extends base\AppController
 
             return $this->render('create', [
                 'model' => $model,
+                'mode' => 'create',
                 'documentUploadForm' => $documentUploadForm,
                 'imageUploadForm' => $imageUploadForm,
             ]);
@@ -104,35 +114,15 @@ class ProjectController extends base\AppController
             return $this->redirect(['view', 'id' => $model->PROJECT_ID]);
         } else {
             $documentUploadForm = new DocumentUploadForm();
-            $documentUploadFormConfigs = [];
-
-            $documentUploadFormConfigs['initialPreview'] = [];
-            $documentUploadFormConfigs['initialPreviewConfig'] = [];
-
-            $projectDoc = EfProjectDoc::find()->where(['PROJECT_ID' => $id])->all();
-            foreach ($projectDoc as $key => $value) {
-                array_push($documentUploadFormConfigs['initialPreview'], $this->getDocumentPreviewTamplate($documentUploadForm, $value));
-                array_push($documentUploadFormConfigs['initialPreviewConfig'], $this->getDocumentPreviewConfig($value));
-            }
-
             $imageUploadForm = new ImageUploadForm();
-            $imageUploadFormConfigs = [];
-
-            $imageUploadFormConfigs['initialPreview'] = [];
-            $imageUploadFormConfigs['initialPreviewConfig'] = [];
-
-            $projectImage = EfProjectImage::find()->where(['PROJECT_ID' => $id])->all();
-            foreach ($projectImage as $key => $value) {
-                array_push($imageUploadFormConfigs['initialPreview'], $this->getImagePreviewTamplate($value));
-                array_push($imageUploadFormConfigs['initialPreviewConfig'], $this->getImagePreviewConfig($value));
-            }
 
             return $this->render('update', [
                 'model' => $model,
+                'mode' => 'update',
                 'documentUploadForm' => $documentUploadForm,
-                'documentUploadFormConfigs' => $documentUploadFormConfigs,
+                'documentUploadFormConfigs' => $this->getDocumentUploadFormConfigs($model->PROJECT_ID, $documentUploadForm),
                 'imageUploadForm' => $imageUploadForm,
-                'imageUploadFormConfigs' => $imageUploadFormConfigs
+                'imageUploadFormConfigs' => $this->getImageUploadFormConfigs($model->PROJECT_ID)
             ]);
         }
     }
@@ -288,6 +278,22 @@ class ProjectController extends base\AppController
 
 
     /* *** private function *** */
+    private function getDocumentUploadFormConfigs($projectId, $documentUploadForm)
+    {
+        $documentUploadFormConfigs = [];
+        $documentUploadFormConfigs['initialPreview'] = [];
+        $documentUploadFormConfigs['initialPreviewConfig'] = [];
+
+        $projectDoc = EfProjectDoc::find()->where(['PROJECT_ID' => $projectId])->all();
+        foreach ($projectDoc as $key => $value) {
+            array_push($documentUploadFormConfigs['initialPreview'], $this->getDocumentPreviewTamplate($documentUploadForm, $value));
+            array_push($documentUploadFormConfigs['initialPreviewConfig'], $this->getDocumentPreviewConfig($value));
+        }
+
+        return $documentUploadFormConfigs;
+    }
+
+
     private function getDocumentPreviewTamplate($documentUploadForm, $projectDoc)
     {
         $splitFileName = explode('.', $projectDoc->FILE_NAME);
@@ -307,6 +313,21 @@ class ProjectController extends base\AppController
                     'key' => $projectDoc->PROJECT_DOC_ID,
                     'extra' => []
                 ];            
+    }
+
+    private function getImageUploadFormConfigs($projectId)
+    {
+        $imageUploadFormConfigs = [];
+        $imageUploadFormConfigs['initialPreview'] = [];
+        $imageUploadFormConfigs['initialPreviewConfig'] = [];
+
+        $projectImage = EfProjectImage::find()->where(['PROJECT_ID' => $projectId])->all();
+        foreach ($projectImage as $key => $value) {
+            array_push($imageUploadFormConfigs['initialPreview'], $this->getImagePreviewTamplate($value));
+            array_push($imageUploadFormConfigs['initialPreviewConfig'], $this->getImagePreviewConfig($value));
+        }
+
+        return $imageUploadFormConfigs;
     }
 
     private function getImagePreviewTamplate($projectImage)

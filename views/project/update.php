@@ -14,6 +14,7 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'mode' => $mode,
         'documentUploadForm' => $documentUploadForm,
         'documentUploadFormConfigs' => $documentUploadFormConfigs,
         'imageUploadForm' => $imageUploadForm,
