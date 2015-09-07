@@ -1,7 +1,11 @@
 <?php
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
+use kartik\widgets\DepDrop;
+use kartik\widgets\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\EfProjectPlanAct */
@@ -51,10 +55,36 @@ use yii\bootstrap\ActiveForm;
             <div class="col-sm-9" style="border-left: #337ab7 2px solid;">
 
                 <?= $form->field($model, 'PROJECT_ID')
-                                    ->textInput(['class' => 'level-2 level-3']) ?>
+                            ->widget(Select2::classname(), [
+                                        'data' => ArrayHelper::map($projectList, 'PROJECT_PLAN_ACT_ID', 'PLAN_ACT_NAME'),
+                                        'options' => [
+                                                        'placeholder' => 'กรุณาเลือกแผนงาน',
+                                                        'class' => 'level-2 level-3'
+                                                    ],
+                                        'pluginOptions' => [
+                                            'allowClear' => false
+                                        ],
+                                    ]) ?>
 
-                <?= $form->field($model, 'PARENT_ID')
-                                    ->textInput(['class' => 'level-3']) ?>
+                <?=  $form->field($model, 'PARENT_ID')
+                            ->widget(DepDrop::classname(), [
+                                        'type' => DepDrop::TYPE_SELECT2,
+                                        'select2Options' => [
+                                            'pluginOptions' => [
+                                                'allowClear' => false
+                                            ]
+                                        ],
+                                        'options' => [
+                                                        'class' => 'level-3'
+                                                    ],
+                                        'pluginOptions'=>[
+                                            'depends'=>['efprojectplanact-project_id'],
+                                            'initialize' => true,
+                                            'url' => Url::to(['get-parent-list']),
+                                            'loadingText' => 'Loading ...',
+                                            'placeholder' => 'กรุณาเลือกแผนงาน',
+                                        ]
+                                    ]) ?>
 
                 <?= $form->field($model, 'PLAN_ACT_NAME')
                             ->textInput([

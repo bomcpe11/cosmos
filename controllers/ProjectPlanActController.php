@@ -61,12 +61,14 @@ class ProjectPlanActController extends Controller
     public function actionCreate()
     {
         $model = new EfProjectPlanAct();
+        $projectList = EfProjectPlanAct::find()->where(['PARENT_ID' => null])->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->PROJECT_PLAN_ACT_ID]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'projectList' => $projectList
             ]);
         }
     }
