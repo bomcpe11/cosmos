@@ -13,6 +13,7 @@ use yii\db\Expression;
  * @property integer $PROJECT_ID
  * @property string $FISCAL_YEAR
  * @property integer $PROJECT_TYPE_ID
+ * @property integer $PROJECT_GROUP_ID
  * @property string $PLAN_NAME
  * @property string $MAIN_PRODUCTIVITY
  * @property string $PROJECT_NAME
@@ -77,8 +78,8 @@ class EfProject extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['PROJECT_ID', 'FISCAL_YEAR', 'PROJECT_TYPE_ID', 'PROJECT_NAME', 'UNIT_ID', 'DIVISION_ID', 'START_DATE', 'END_DATE', 'PROJECT_STATUS', 'PROJ_HDLR_ID'], 'required'],
-            [['PROJECT_ID', 'PROJECT_TYPE_ID', 'UNIT_ID', 'DIVISION_ID', 'BUDGET_TYPE_ID', 'PROJ_HDLR_ID', 'CREATE_BY', 'LAST_UPD_BY'], 'integer'],
+            [['PROJECT_ID', 'FISCAL_YEAR', 'PROJECT_GROUP_ID', 'PROJECT_TYPE_ID', 'PROJECT_NAME', 'UNIT_ID', 'DIVISION_ID', 'START_DATE', 'END_DATE', 'PROJECT_STATUS', 'PROJ_HDLR_ID'], 'required'],
+            [['PROJECT_ID', 'PROJECT_GROUP_ID', 'PROJECT_TYPE_ID', 'UNIT_ID', 'DIVISION_ID', 'BUDGET_TYPE_ID', 'PROJ_HDLR_ID', 'CREATE_BY', 'LAST_UPD_BY'], 'integer'],
             [['START_DATE', 'END_DATE', 'CREATE_DATE', 'LAST_UPD_DATE'], 'safe'],
             [['BUDGET_RECEIVE', 'BUDGET_ACTUAL'], 'number'],
             [['PRINC_N_REASON', 'OBJECTIVE', 'TARGET', 'TARGET_GROUP', 'OUTPUT', 'INDICATOR', 'RESULT', 'SCOPE', 'PLAN'], 'string'],
@@ -98,6 +99,7 @@ class EfProject extends \yii\db\ActiveRecord
         return [
             'PROJECT_ID' => 'เลขที่อ้างอิง ตารางข้อมูลโครงการที่ได้รับการสนับสนุนจากกองทุนสิ่งแวดล้อม',
             'FISCAL_YEAR' => 'ปีงบประมาณ',
+            'PROJECT_GROUP_ID' => 'กลุ่มโครงการ',
             'PROJECT_TYPE_ID' => 'ประเภทโครงการ',
             'PLAN_NAME' => 'แผนงาน',
             'MAIN_PRODUCTIVITY' => 'ผลผลิตหลัก',
@@ -145,6 +147,14 @@ class EfProject extends \yii\db\ActiveRecord
     public function getPROJHDLR()
     {
         return $this->hasOne(EfProjHdlr::className(), ['PROJ_HDLR_ID' => 'PROJ_HDLR_ID']);
+    }
+
+     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProjectGroup()
+    {
+        return $this->hasOne(EfProjectGroup::className(), ['PROJECT_GROUP_ID' => 'PROJECT_GROUP_ID']);
     }
 
     /**

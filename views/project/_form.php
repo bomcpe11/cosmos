@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 
 use yii\bootstrap\ActiveForm;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\helpers\Json;
 use kartik\widgets\DepDrop;
@@ -87,9 +88,11 @@ use kartik\date\DatePicker;
 										],
 									]) ?>
 								</div>
+							</div>
+							<div class="row">
 								<div class="col-md-6">
-									<?= $form->field($model, 'PROJECT_TYPE_ID')->widget(Select2::classname(), [
-										'data' => \yii\helpers\ArrayHelper::map(app\models\EfProjectType::find()->all(), 'PROJECT_TYPE_ID', 'PROJECT_TYPE_NAME'),
+									<?= $form->field($model, 'PROJECT_GROUP_ID')->widget(Select2::classname(), [
+										'data' => ArrayHelper::map(app\models\EfProjectGroup::find()->all(), 'PROJECT_GROUP_ID', 'GROUP_NAME'),
 										'options' => [
 											'placeholder' => 'กรุณาเลือก',
 											'disabled' => ($mode == 'view')? true: false,
@@ -98,6 +101,28 @@ use kartik\date\DatePicker;
 											'allowClear' => false
 										],
 									]) ?>
+								</div>
+								<div class="col-md-6">
+									<?= $form->field($model, 'PROJECT_TYPE_ID')
+										->widget(DepDrop::classname(), [
+											'data' => ArrayHelper::map(app\models\EfProjectType::find()->all(), 'PROJECT_TYPE_ID', 'PROJECT_TYPE_NAME'),
+											'type' => DepDrop::TYPE_SELECT2,
+											'select2Options' => [
+												'pluginOptions' => [
+													'allowClear' => false
+												]
+											],
+											'options' => [
+												'disabled' => ($mode == 'view')? true: false
+											],
+											'pluginOptions'=>[
+												'depends'=> ($mode == 'view')? ['']: ['efproject-project_group_id'],
+												'initialize' => $model->isNewRecord?false:true,
+												'url' => Url::to(['/common/ajax/get-project-group-list']),
+												'loadingText' => 'Loading ...',
+												'placeholder'=> 'เลือก กลุ่มโครงการ ก่อน'
+											],
+										]) ?>
 								</div>
 							</div>
 							<div class="row">
@@ -118,11 +143,6 @@ use kartik\date\DatePicker;
 							</div>
 							<div class="row">
 								<div class="col-md-12">
-									
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12">
 									<?= $form->field($model, 'PROJECT_NAME')
 												->textInput([
 																'disabled' => ($mode == 'view')? true: false
@@ -133,7 +153,7 @@ use kartik\date\DatePicker;
 								<div class="col-md-6">
 									<?= $form->field($model, 'UNIT_ID')
 									->widget(Select2::classname(), [
-										'data' => \yii\helpers\ArrayHelper::map(app\models\EfUnit::find()->where(['UNIT_STATUS'=>'A'])->all(), 'UNIT_ID', 'UNIT_NAME'),
+										'data' => ArrayHelper::map(app\models\EfUnit::find()->where(['UNIT_STATUS'=>'A'])->all(), 'UNIT_ID', 'UNIT_NAME'),
 										'options' => [
 											'placeholder' => 'กรุณาเลือก',
 											'disabled' => ($mode == 'view')? true: false
@@ -146,7 +166,7 @@ use kartik\date\DatePicker;
 								</div>
 								<div class="col-md-6">
 									<?= $form->field($model, 'DIVISION_ID')->widget(DepDrop::classname(), [
-										'data'=>  \yii\helpers\ArrayHelper::map(app\models\EfDivision::find()->where(['DIVISION_ID'=>$model->DIVISION_ID])->all(), 'DIVISION_ID', 'DIVISION_NAME'),
+										'data'=>  ArrayHelper::map(app\models\EfDivision::find()->where(['DIVISION_ID'=>$model->DIVISION_ID])->all(), 'DIVISION_ID', 'DIVISION_NAME'),
 										'type' => DepDrop::TYPE_SELECT2,
 										'select2Options' => [
 											'pluginOptions' => [
