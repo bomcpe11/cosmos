@@ -53,6 +53,18 @@ use kartik\icons\Icon;
 	?>
 	
 	<div class="row content">
+		<?php if ($mode == 'view') : ?>
+			<div class="row">
+				<div class="col-sm-offset-11 col-sm-1">
+	    			<?= Html::a(Icon::show('edit', [], Icon::BSG), 
+	    						['update', 'id' => $model->PROJECT_ID], 
+	    						[
+	    							'class' => 'btn btn-primary btn-sm center-block',
+	    							'title' => 'แก้ไข'
+	    						]) ?>
+				</div>
+			</div>
+		<?php endif ?>
 		<div class="row">
 			<div class="col-md-6">
 				<div class="">

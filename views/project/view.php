@@ -6,12 +6,11 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\EfProject */
 
-$this->title = $model->PROJECT_ID;
+$this->title = 'View Ef Project: ' . ' ' . $model->PROJECT_NAME;
 $this->params['breadcrumbs'][] = ['label' => 'Ef Projects', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ef-project-view">
-
     <?= $this->render('_form', [
         'model' => $model,
         'mode' => $mode,
