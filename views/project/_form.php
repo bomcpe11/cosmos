@@ -11,6 +11,7 @@ use dosamigos\ckeditor\CKEditor;
 use yii\bootstrap\Tabs;
 use kartik\widgets\FileInput;
 use kartik\icons\Icon;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\EfProject */
@@ -168,19 +169,28 @@ use kartik\icons\Icon;
 							</div>
 							<div class="row">
 								<div class="col-md-6">
-									
-								</div>
-								<div class="col-md-4">
 									<?= $form->field($model, 'START_DATE')
-												->textInput([
-																'disabled' => ($mode == 'view')? true: false
-															]) ?>
+												->widget(DatePicker::classname(),[
+													    'type' => DatePicker::TYPE_COMPONENT_APPEND,
+													    'value' => $model->START_DATE,
+													    'disabled' => ($mode == 'view')? true: false,
+													    'pluginOptions' => [
+													        'autoclose'=>true,
+													        'format' => 'yyyy-mm-dd'
+													    ]
+													]) ?>
 								</div>
-								<div class="col-md-2">
+								<div class="col-md-6">
 									<?= $form->field($model, 'END_DATE')
-												->textInput([
-																'disabled' => ($mode == 'view')? true: false
-															]) ?>
+												->widget(DatePicker::classname(),[
+													    'type' => DatePicker::TYPE_COMPONENT_APPEND,
+													    'value' => $model->END_DATE,
+													    'disabled' => ($mode == 'view')? true: false,
+													    'pluginOptions' => [
+													        'autoclose'=>true,
+													        'format' => 'yyyy-mm-dd'
+													    ]
+													]) ?>
 								</div>
 							</div>
 							<div class="row">
