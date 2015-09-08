@@ -71,7 +71,7 @@ use kartik\date\DatePicker;
 			<div class="col-md-6">
 				<div class="">
 					<div class="panel panel-success dummy-data">
-						<div class="panel-heading">
+						<div class="panel-heading bg-olive">
 							<h3 class="panel-title">โครงการที่ได้รับการสนับสนุนจากกองทุนสิ่งแวดล้อม</h3>
 						</div>
 						<div class="panel-body search-result-contents">
@@ -263,7 +263,7 @@ use kartik\date\DatePicker;
 			<div class="col-md-6">
 				<div class="">
 					<div class="panel panel-danger dummy-data">
-						<div class="panel-heading">
+						<div class="panel-heading bg-red">
 							<h3 class="panel-title">ผู้รับกองทุน</h3>
 						</div>
 						<div class="panel-body search-result-contents">
@@ -439,7 +439,7 @@ use kartik\date\DatePicker;
 			<div class="col-md-6">
 				<div class="">
 					<div class="panel panel-warning dummy-data">
-						<div class="panel-heading">
+						<div class="panel-heading bg-orange">
 							<h3 class="panel-title">เอกสารแนบ</h3>
 						</div>
 						<div class="panel-body search-result-contents">
@@ -497,7 +497,7 @@ use kartik\date\DatePicker;
 			<div class="col-md-6">
 				<div class="">
 					<div class="panel panel-danger dummy-data">
-						<div class="panel-heading">
+						<div class="panel-heading bg-red">
 							<h3 class="panel-title">ภาพประกอบโครงการ</h3>
 						</div>
 						<div class="panel-body search-result-contents">

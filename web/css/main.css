@@ -10568,7 +10568,7 @@ button.toast-close-button {
 }
 
 .page {
-  padding: 15px;
+  padding: 0px;
 }
 
 .page-form-ele h3 {
@@ -11609,4 +11609,16 @@ button.toast-close-button {
 
 .form-validation .ng-invalid.ng-dirty {
   border-color: #E94B3B;
+}
+.content-header>.breadcrumb {
+    float: right;
+    background: white !important;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    padding: 7px 16px !important;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    border-radius: 8px !important;
 }

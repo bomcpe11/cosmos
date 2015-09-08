@@ -64,7 +64,11 @@ if (Yii::$app->controller->action->id === 'login') {
             </div>
 
             <div class="view-container">
-                <section id="content" class="animate-fade-up ng-scope"><div class="page ng-scope"><?=$content?></div></section>
+                <section id="content" class="animate-fade-up ng-scope"><div class="page ng-scope"><?= $this->render(
+		            'content.php',
+		            ['content' => $content, 'directoryAsset' => $directoryAsset]
+		        )
+		        ?></div></section>
             </div>
         </div>
     	<?php $this->endBody() ?>
