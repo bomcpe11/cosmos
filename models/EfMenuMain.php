@@ -13,6 +13,8 @@ use yii\db\Expression;
  * @property integer $MENU_MAIN_ID
  * @property string $MENU_MAIN_NAME
  * @property string $DESCRIPTION
+ * @property string $MENU_CLASS
+ * @property string $MENU_LINK
  * @property integer $SEQ
  * @property string $STATUS
  * @property integer $CREATE_BY
@@ -54,7 +56,7 @@ class EfMenuMain extends \yii\db\ActiveRecord
             [['MENU_MAIN_NAME', 'CREATE_BY', 'LAST_UPD_BY'], 'required'],
             [['MENU_MAIN_ID', 'SEQ', 'CREATE_BY', 'LAST_UPD_BY'], 'integer'],
             [['CREATE_DATE', 'LAST_UPD_DATE'], 'safe'],
-            [['MENU_MAIN_NAME', 'DESCRIPTION'], 'string', 'max' => 255],
+            [['MENU_MAIN_NAME', 'MENU_CLASS', 'MENU_LINK', 'DESCRIPTION'], 'string', 'max' => 255],
             [['STATUS'], 'string', 'max' => 1]
         ];
     }

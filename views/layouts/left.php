@@ -51,35 +51,6 @@ use yii\bootstrap\Nav;
         	foreach ($data as $row){
         		$menus[$row['MENU_MAIN_ID']][] = $row;
         	}
-        	
-//         	echo '<pre>';
-//         	print_r($menus);
-//         	echo '</pre>';
-//         	exit();
-        	
-        	/*-----------------------------*/
-        	
-//         	$curr_id = 0;
-//         	foreach($data as $row){ 
-        	
-// 	        	if($curr_id != $row['MENU_MAIN_ID']){
-// 	        		echo '<li class="treeview">
-// 			                <a href="#">
-// 			                    <i class="fa fa-share"></i> <span>'.$row['MENU_MAIN_NAME'].'</span>
-// 			                    <i class="fa fa-angle-left pull-right"></i>
-// 			                </a>
-// 			                <ul class="treeview-menu">';
-// 	        	}
-	        	
-// 	        	echo '<li><a href="'.\yii\helpers\Url::to([$row['MENU_LINK']]).'"> '.$row['MENU_SUB_NAME'].'</a></li>';
-	        	
-// 	        	if($curr_id != $row['MENU_MAIN_ID']){
-// 	        		echo '</ul>
-// 	            	</li>';
-// 	        	}
-// 	        	$curr_id = $row['MENU_MAIN_ID'];
-//          	}
-         	
          	?>
          	
          	<?php foreach($menus as $main_menu):?>
