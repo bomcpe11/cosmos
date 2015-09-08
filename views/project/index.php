@@ -113,7 +113,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'hover'=>true,
             'showPageSummary'=>true,
             'panel'=> [
-                'heading' => 'เมนูหลัก', 
+                'heading' => 'กองทุนสิ่งแวดล้อม', 
                 'type'=>GridView::TYPE_PRIMARY,
             ],
             'persistResize'=>false,
